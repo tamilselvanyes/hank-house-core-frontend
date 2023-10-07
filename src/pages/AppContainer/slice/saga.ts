@@ -5,9 +5,11 @@ import { appContainerActions as actions } from "./index";
 
 export function* pingTest(data: any) {
   try {
+    console.log(API_URLS, "Called api");
     let responseData: string = yield call(request, `${API_URLS}`, {
       method: "get",
     });
+
     if (responseData.length > 0) {
     }
   } catch (error) {
@@ -17,4 +19,5 @@ export function* pingTest(data: any) {
 
 export function* appContainerSaga() {
   yield takeLatest(actions.pingTest, pingTest);
+  yield takeLatest(actions.getProduct, pingTest);
 }

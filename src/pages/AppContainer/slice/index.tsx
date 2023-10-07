@@ -10,16 +10,24 @@ import { AppContainerStates } from "./types";
 
 export const initialState: AppContainerStates = {
   pingResponse: "",
+  productLoading: false,
+  productList: [],
 };
 const slice = createSlice({
   name: "appContainer",
   initialState,
   reducers: {
-    pingTest(state: any, action: PayloadAction<string>) {
+    pingTest(state: AppContainerStates, action: PayloadAction<string>) {
       console.log(action.payload, "TEST PAYLOAD");
     },
     pingTestSuccessful(state: any, action: PayloadAction<any>) {
       state.pingResponse = JSON.stringify(action.payload);
+    },
+    getProduct(state: AppContainerStates) {
+      state.productLoading = true;
+    },
+    setProduct(state: AppContainerStates, action: PayloadAction<any[]>) {
+      state.productList = action.payload;
     },
   },
 });
