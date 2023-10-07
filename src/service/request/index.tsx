@@ -67,12 +67,14 @@ export async function requestStreaming(
   url: string,
   options?: RequestInit
 ): Promise<any | { err: ResponseError }> {
+  console.log(url, "URL");
   if (options) {
     options["headers"] = new Headers({
       Accept: "application/json",
       "Content-Type": "application/json",
     });
   }
+  console.log(url, "URL");
   const fetchResponse = await fetch(url, options)
     .then((response) => {
       let reader: any;
