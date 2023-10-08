@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import InputTextComponent from '../../Components/InputTextComponent';
 import PasswordTextComponent from '../../Components/PasswordTextComponent';
 import loginImage from '../../assets/images/image-login.jpg';
@@ -6,6 +7,8 @@ import loginImage from '../../assets/images/image-login.jpg';
 const Login = () => {
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  const navigate = useNavigate();
   return (
     <div className="flex mt-10 h-screen gap-8">
       <div>
@@ -71,7 +74,7 @@ const Login = () => {
         </div>
 
         <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-          <p className="mx-4 mb-0 text-center font-semibold dark:text-white">
+          <p className="mx-4 mb-0 text-center font-semibold dark:text-black">
             Or
           </p>
         </div>
@@ -83,7 +86,7 @@ const Login = () => {
           setValue={setUserName}
         />
         <PasswordTextComponent
-        label='Password'
+          label="Password"
           password={password}
           setPassword={setPassword}
         />
@@ -93,7 +96,12 @@ const Login = () => {
           </button>
           <p className="font-serif font-thin mt-2 italic">
             Need an account?
-            <span className="text-blue-700 cursor-pointer">
+            <span
+              className="text-blue-700 cursor-pointer"
+              onClick={() => {
+                navigate('/register');
+              }}
+            >
               Register
             </span>
           </p>
