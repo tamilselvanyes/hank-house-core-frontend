@@ -18,7 +18,7 @@ export default function AppContainer({ children }: IProps) {
   }, []);
 
   return (
-    <div className="font-bold flex justify-center items-center">
+    <div className="font-bold flex justify-center items-center flex-col w-full">
       {children}
     </div>
   );

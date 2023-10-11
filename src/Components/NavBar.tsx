@@ -1,13 +1,18 @@
 import React from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/Logo.svg';
 import chevronDown from '../assets/images/chevron-down.svg';
 import shoppingCart from '../assets/images/shopping-cart.svg';
 import userIcon from '../assets/images/user.svg';
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const [cookies] = useCookies();
+  const token = cookies.token;
   return (
-    <div className="flex justify-between items-center w-full mx-2">
-      <img src={logo} alt="Logo" />
+    <div className="flex justify-between items-center w-full px-5 mt-3">
+      <img src={logo} alt="Logo" className="w-36" />
       <div className="flex gap-8">
         <div className="flex">
           <p>Categories</p>
@@ -20,7 +25,7 @@ const NavBar = () => {
         <p>Deals</p>
         <p>What's New</p>
       </div>
-      <div className="relative">
+      <div className="relative ">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
           <svg
             className="w-5 h-5 text-gray-500 dark:text-gray-400"
@@ -40,7 +45,7 @@ const NavBar = () => {
         <input
           type="search"
           id="default-search"
-          className="block p-4 pl-10 w-full text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block p-4 pl-10 w-60 text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Product"
           required
         />
@@ -51,10 +56,15 @@ const NavBar = () => {
           Search
         </button>
       </div>
-      <div className="flex">
-        <div className="flex">
+      <div className="flex gap-6 mr-3">
+        <div
+          className="flex"
+          onClick={() => {
+            token ? navigate('/login') : navigate('/');
+          }}
+        >
           <img src={userIcon} alt="user" className="h-[24px]" />
-          <p>Account</p>
+          <p>{token ? 'Account' : 'Login'}</p>
         </div>
         <div className="flex">
           <img src={shoppingCart} alt="cart" className="h-[24px]" />

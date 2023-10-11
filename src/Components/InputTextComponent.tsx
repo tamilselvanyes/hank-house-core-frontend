@@ -4,7 +4,7 @@ interface InputBoxProps {
   label: string;
   value: string;
   helperText?: string;
-  placeHolder: string;
+  placeHolder?: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 const InputTextComponent = ({
