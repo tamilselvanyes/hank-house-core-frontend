@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { loginUser } from '../../utils/helpers';
 import InputTextComponent from '../../Components/InputTextComponent';
 import PasswordTextComponent from '../../Components/PasswordTextComponent';
 import loginImage from '../../assets/images/image-login.jpg';
@@ -6,6 +9,23 @@ import loginImage from '../../assets/images/image-login.jpg';
 const Login = () => {
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const handleLogin = async () => {
+    try {
+    const response = await loginUser(userName, password);
+    if(response){
+      setCookie('token', response.data.accessToken)
+      navigate('/')
+    }
+    } catch (error) {
+      console.log(error);
+    }
+
+    
+  };
+  
+
+  const navigate = useNavigate();
   return (
     <div className="flex mt-10 h-screen gap-8">
       <div>
@@ -71,7 +91,7 @@ const Login = () => {
         </div>
 
         <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-          <p className="mx-4 mb-0 text-center font-semibold dark:text-white">
+          <p className="mx-4 mb-0 text-center font-semibold dark:text-black">
             Or
           </p>
         </div>
@@ -83,17 +103,25 @@ const Login = () => {
           setValue={setUserName}
         />
         <PasswordTextComponent
-        label='Password'
+          label="Password"
           password={password}
           setPassword={setPassword}
         />
         <div className="w-full">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full"
+            onClick={handleLogin}
+          >
             Login
           </button>
           <p className="font-serif font-thin mt-2 italic">
             Need an account?
-            <span className="text-blue-700 cursor-pointer">
+            <span
+              className="text-blue-700 cursor-pointer"
+              onClick={() => {
+                navigate('/register');
+              }}
+            >
               Register
             </span>
           </p>
