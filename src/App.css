@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.hero-img {
+  background: url(assets/images/hero-img2.png);
+  background-repeat: no-repeat;
+}
+
+.category{
+  
+}

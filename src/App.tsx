@@ -11,6 +11,7 @@ import Register from './pages/Account/Register';
 import NavBar from './Components/NavBar';
 import Home from './pages/Home';
 import { useEffect, useState } from 'react';
+import CategoryCard from './Components/CategoryCard';
 
 function App() {
   const SignInRoute: React.FunctionComponent = () => {
@@ -46,6 +47,15 @@ function App() {
             </AppContainer>
           }
         />
+        <Route
+        path="/login"
+        element={
+          <AppContainer>
+            <Login/>
+          </AppContainer>
+        }
+
+        />
       </Routes>
     );
   };
@@ -71,6 +81,7 @@ function App() {
       <AppContainer>
         {/* {!isSignedIn ? <SignInRoute /> : <MainRoute />} */}
         <MainRoute />
+        {/* <CategoryCard/> */}
       </AppContainer>
     </div>
   );

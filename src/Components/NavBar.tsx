@@ -45,7 +45,7 @@ const NavBar = () => {
         <input
           type="search"
           id="default-search"
-          className="block p-4 pl-10 w-60 text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block p-4 pl-10 w-96 text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Product"
           required
         />
@@ -58,9 +58,9 @@ const NavBar = () => {
       </div>
       <div className="flex gap-6 mr-3">
         <div
-          className="flex"
+          className="flex cursor-pointer"
           onClick={() => {
-            token ? navigate('/login') : navigate('/');
+            navigate('/login');
           }}
         >
           <img src={userIcon} alt="user" className="h-[24px]" />

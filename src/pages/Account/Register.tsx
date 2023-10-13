@@ -9,7 +9,7 @@ const Register = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('user');
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
@@ -53,7 +53,7 @@ const Register = () => {
           setValue={setUserName}
         />
 
-        <div>
+        {/* <div>
           <label className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
             Role
           </label>
@@ -67,7 +67,7 @@ const Register = () => {
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>
-        </div>
+        </div> */}
         <PasswordTextComponent
           label="Password"
           password={confirmPassword}
