@@ -1,26 +1,111 @@
-import React from 'react';
+import { Fragment } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+
+import { Menu, Transition } from '@headlessui/react';
+
 import logo from '../assets/images/Logo.svg';
-import chevronDown from '../assets/images/chevron-down.svg';
-import shoppingCart from '../assets/images/shopping-cart.svg';
-import userIcon from '../assets/images/user.svg';
+import {
+  BiLogIn,
+  BiLogOut,
+  BiUser,
+  BiCart,
+  BiSolidChevronDown,
+} from 'react-icons/bi';
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const [cookies] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const token = cookies.token;
   return (
-    <div className="flex justify-between items-center w-full px-5 mt-3">
-      <img src={logo} alt="Logo" className="w-36" />
+    <div className="flex justify-between items-center w-full px-5 mt-3 border-b pb-2">
+      <img
+        src={logo}
+        alt="Logo"
+        className="w-36 cursor-pointer"
+        onClick={() => {
+          navigate('/');
+        }}
+      />
       <div className="flex gap-8">
-        <div className="flex">
+        {/* <div className="flex items-center gap-1">
           <p>Categories</p>
-          <img
-            src={chevronDown}
-            alt="chevron down"
-            className="h-[24px]"
-          />
+          <BiSolidChevronDown />
+        </div> */}
+        <div>
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <Menu.Button className="flex items-center w-full justify-center gap-1">
+                <p>Categories</p>
+                <BiSolidChevronDown />
+              </Menu.Button>
+            </div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                <div className="px-1 py-1 ">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                      >
+                        {/* <BiUser />
+                        Profile */}
+                        Men
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          removeCookie('token');
+                        }}
+                      >
+                        {/* <BiLogOut />
+                        Log out */}
+                        Women
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          removeCookie('token');
+                        }}
+                      >
+                        {/* <BiLogOut />
+                        Log out */}
+                        Kids
+                      </button>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
         </div>
         <p>Deals</p>
         <p>What's New</p>
@@ -57,17 +142,74 @@ const NavBar = () => {
         </button>
       </div>
       <div className="flex gap-6 mr-3">
-        <div
-          className="flex cursor-pointer"
-          onClick={() => {
-            navigate('/login');
-          }}
-        >
-          <img src={userIcon} alt="user" className="h-[24px]" />
-          <p>{token ? 'Account' : 'Login'}</p>
-        </div>
-        <div className="flex">
-          <img src={shoppingCart} alt="cart" className="h-[24px]" />
+        {token ? (
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <Menu.Button className="flex items-center w-full justify-center gap-1 ">
+                <BiUser />
+                <p>Account</p>
+              </Menu.Button>
+            </div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                <div className="px-1 py-1 ">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                      >
+                        <BiUser />
+                        Profile
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          removeCookie('token');
+                        }}
+                      >
+                        <BiLogOut />
+                        Log out
+                      </button>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        ) : (
+          <div
+            className="flex w-full items-center gap-2 cursor-pointer"
+            onClick={() => {
+              navigate('/login');
+            }}
+          >
+            <BiLogIn />
+            <p>Login</p>
+          </div>
+        )}
+
+        <div className="flex items-center gap-1">
+          <BiCart />
           <p>Cart</p>
         </div>
       </div>

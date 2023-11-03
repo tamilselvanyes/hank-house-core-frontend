@@ -28,12 +28,12 @@ const Register = () => {
     }
   };
   return (
-    <div className="flex mt-10 h-screen gap-8">
+    <div className="flex mt-10  gap-8 bg-[#E5FAED] px-12 py-14 rounded-lg">
       <div>
         <img
           src={loginImage}
           alt="login side asset"
-          className="object-cover w-96 h-[85%]"
+          className="object-cover w-96 h-[100%]"
         />
       </div>
       <div className="flex flex-col gap-7 mt-14">

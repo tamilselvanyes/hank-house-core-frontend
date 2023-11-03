@@ -16,7 +16,7 @@ export const generate_random_string = (length: number): string => {
 const baseUrl = 'http://localhost:8000/';
 
 export const loginUser = async (email: string, password: string) => {
-  const response = await axios.post(`${baseUrl}/auth/signin`, {
+  const response = await axios.post(`${baseUrl}auth/signin`, {
     username: email,
     password: password,
   });

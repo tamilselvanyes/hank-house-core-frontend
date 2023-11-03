@@ -3,6 +3,7 @@ import { useAppContainerSlice } from './slice/index';
 import { useDispatch } from 'react-redux';
 import Login from '../Account/Login';
 import Register from '../Account/Register';
+import NavBar from '../../Components/NavBar';
 
 interface IProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export default function AppContainer({ children }: IProps) {
 
   return (
     <div className="font-bold flex justify-center items-center flex-col w-full">
+      {/* <NavBar /> */}
       {children}
     </div>
   );
