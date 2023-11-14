@@ -3,7 +3,7 @@ import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 
 const Cart = () => {
   return (
-    <div>
+    <div className="w-100 p-4">
       <div className="main-container">
         <div className="left-container">
           <h2>Shopping Cart</h2>
