@@ -11,6 +11,7 @@ import {
   BiUser,
   BiCart,
   BiSolidChevronDown,
+  BiShoppingBag,
 } from 'react-icons/bi';
 
 const NavBar = () => {
@@ -18,7 +19,7 @@ const NavBar = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const token = cookies.token;
   return (
-    <div className="flex justify-between items-center w-full px-5 mt-3 border-b pb-2">
+    <div className="flex justify-between items-center w-full px-5 pt-3 border-b pb-2 bg-white">
       <img
         src={logo}
         alt="Logo"
@@ -59,6 +60,9 @@ const NavBar = () => {
                             ? 'bg-[#228706] text-white'
                             : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          navigate('/products/1');
+                        }}
                       >
                         {/* <BiUser />
                         Profile */}
@@ -75,7 +79,7 @@ const NavBar = () => {
                             : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          removeCookie('token');
+                          navigate('/products/2');
                         }}
                       >
                         {/* <BiLogOut />
@@ -93,7 +97,7 @@ const NavBar = () => {
                             : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          removeCookie('token');
+                          navigate('/products/3');
                         }}
                       >
                         {/* <BiLogOut />
@@ -136,7 +140,7 @@ const NavBar = () => {
         />
         <button
           type="submit"
-          className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-[#228706] dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Search
         </button>
@@ -209,8 +213,66 @@ const NavBar = () => {
         )}
 
         <div className="flex items-center gap-1">
-          <BiCart />
-          <p>Cart</p>
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <Menu.Button className="flex items-center w-full justify-center gap-1 ">
+                <BiCart />
+                {/* <p>Account</p> */}
+              </Menu.Button>
+            </div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                <div className="px-1 py-1 ">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          token
+                            ? navigate('/wishlist')
+                            : navigate('/login');
+                        }}
+                      >
+                        <BiShoppingBag />
+                        My WishList
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          token
+                            ? navigate('/cart')
+                            : navigate('/login');
+                        }}
+                      >
+                        <BiCart />
+                        Cart
+                      </button>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
         </div>
       </div>
     </div>
