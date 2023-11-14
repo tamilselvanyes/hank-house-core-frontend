@@ -12,6 +12,10 @@ import NavBar from './Components/NavBar';
 import Home from './pages/Home';
 import { useEffect, useState } from 'react';
 import CategoryCard from './Components/CategoryCard';
+import WishList from './pages/WishList';
+import Cart from './pages/Cart';
+import ProductCard from './Components/ProductCard';
+import Products from './pages/Products/Products';
 
 function App() {
   const SignInRoute: React.FunctionComponent = () => {
@@ -63,6 +67,38 @@ function App() {
             </AppContainer>
           }
         />
+        <Route
+          path="/wishlist"
+          element={
+            <AppContainer>
+              <WishList />
+            </AppContainer>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <AppContainer>
+              <Products />
+            </AppContainer>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <AppContainer>
+              <Products />
+            </AppContainer>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <AppContainer>
+              <Cart />
+            </AppContainer>
+          }
+        />
       </Routes>
     );
   };
@@ -92,7 +128,6 @@ function App() {
         <AppContainer>
           {/* {!isSignedIn ? <SignInRoute /> : <MainRoute />} */}
           <MainRoute />
-          {/* <CategoryCard/> */}
         </AppContainer>
       </div>
     </div>
