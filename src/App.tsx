@@ -16,6 +16,7 @@ import WishList from './pages/WishList';
 import Cart from './pages/Cart';
 import ProductCard from './Components/ProductCard';
 import Products from './pages/Products/Products';
+import Footer from './Components/Footer';
 
 function App() {
   const SignInRoute: React.FunctionComponent = () => {
@@ -129,6 +130,9 @@ function App() {
           {/* {!isSignedIn ? <SignInRoute /> : <MainRoute />} */}
           <MainRoute />
         </AppContainer>
+      </div>
+      <div className="pt-9 bottom-0 left-0 right-0">
+        <Footer />
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import heroPoster from '../../assets/images/hero-img2.png';
 import CategoryCard from '../../Components/CategoryCard';
 import {Categories} from '../../constant/index'
 import { useNavigate } from 'react-router-dom';
+import ReviewSection from '../../Components/ReviewSection';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -36,6 +37,9 @@ const Home = () => {
               />
           ))}
         </div>
+      </section>
+      <section  className='px-5'>
+        <ReviewSection/>
       </section>
     </div>
   );
