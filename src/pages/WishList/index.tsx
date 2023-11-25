@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import WishlistCard from '../../Components/WishlistCard';
 
 const WishList = () => {
@@ -39,6 +39,10 @@ const WishList = () => {
       image: 'product3.jpg',
     },
   ];
+
+  useEffect(() => {
+    // get wishlisted items from DB and populate it here
+  }, []);
   return (
     <div className="container mx-auto my-8">
       <h2 className="text-3xl font-bold mb-4 text-center">

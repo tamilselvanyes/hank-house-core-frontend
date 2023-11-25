@@ -9,8 +9,11 @@ const Cart = () => {
   const [subTotal, setSubTotal] = useState<number>();
   const [total, setTotal] = useState<number>();
   useEffect(() => {
-    console.log(location.state);
-    setSubTotal(location.state.quantity * location.state.price);
+    // console.log(location.state);
+    // setSubTotal(location.state.quantity * location.state.price);
+
+    // get cart products from DB and populate it here
+
   }, []);
 
   const handleShipping = (e: any) => {
@@ -41,12 +44,12 @@ const Cart = () => {
             </div> */}
           </div>
           <div className="items-container p-6">
-            <Items
+            {/* <Items
               product={location.state.product}
               price={location.state.price}
               quantity={location.state.quantity}
               size={location.state.size}
-            />
+            /> */}
           </div>
           <button
             className="cnt-btn"

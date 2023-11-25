@@ -103,8 +103,22 @@ const NavBar = () => {
             </Transition>
           </Menu>
         </div>
-        <p>Deals</p>
-        <p>What's New</p>
+        <p
+          className="cursor-pointer"
+          onClick={() => {
+            navigate('products');
+          }}
+        >
+          Deals
+        </p>
+        <p
+          className="cursor-pointer"
+          onClick={() => {
+            navigate('products');
+          }}
+        >
+          What's New
+        </p>
       </div>
       <div className="relative ">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
