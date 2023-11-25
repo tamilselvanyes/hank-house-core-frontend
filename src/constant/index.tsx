@@ -10,17 +10,25 @@ import Pagri from '../assets/images/products/Pagri& Kurta Pajamas.jpeg';
 export const API_URLS = 'http://localhost:8000';
 
 export const Categories: ICategoriesTypes[] = [
-  { categoryId: 1, categoryName: 'Men', categoryImg: categoryMen },
   {
-    categoryId: 2,
+    categoryId: 'Men',
+    categoryName: 'Men',
+    categoryImg: categoryMen,
+  },
+  {
+    categoryId: 'Women',
     categoryName: 'Women',
     categoryImg: categoryWomen,
   },
-  { categoryId: 3, categoryName: 'Kids', categoryImg: categoryKid },
+  {
+    categoryId: 'Kids',
+    categoryName: 'Kids',
+    categoryImg: categoryKid,
+  },
 ];
 
 export interface ICategoriesTypes {
-  categoryId: number;
+  categoryId: string;
   categoryName: string;
   categoryImg: string;
 }
@@ -43,8 +51,7 @@ export const Products: IProductsTypes[] = [
   {
     productCategoryId: '3',
     productTitle: 'Pagri',
-    productDesc:
-      'crafted with intricate fabrics and tied',
+    productDesc: 'crafted with intricate fabrics and tied',
     productImg: Pagri,
     productPrice: 80,
   },

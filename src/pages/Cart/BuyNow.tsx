@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Items from './Items';
+import { useLabels } from '@headlessui/react/dist/components/label/label';
 
-const Cart = () => {
+const BuyNow = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [subTotal, setSubTotal] = useState<number>();
@@ -100,4 +101,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default BuyNow;

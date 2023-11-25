@@ -24,13 +24,28 @@ const WishList = () => {
       price: 39.99,
       image: 'product3.jpg',
     },
+    {
+      id: 3,
+      name: 'Product 3',
+      description: 'Sed do eiusmod tempor incididunt.',
+      price: 39.99,
+      image: 'product3.jpg',
+    },
+    {
+      id: 3,
+      name: 'Product 3',
+      description: 'Sed do eiusmod tempor incididunt.',
+      price: 39.99,
+      image: 'product3.jpg',
+    },
   ];
   return (
     <div className="container mx-auto my-8">
       <h2 className="text-3xl font-bold mb-4 text-center">
         My Wishlist
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {/* <div className="grid grid-cols-12 gap-6"> */}
         {wishlistItems.map((item) => (
           <WishlistCard key={item.id} item={item} />
         ))}

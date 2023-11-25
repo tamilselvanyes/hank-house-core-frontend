@@ -1,3 +1,4 @@
+import { Product } from '../pages/Products/Model';
 import { characters } from './constant';
 import axios from 'axios';
 
@@ -36,4 +37,14 @@ export const registerUser = async (
     password,
   });
   return response;
+};
+
+export const getProducts = async () => {
+  const response = await axios.get(`${baseUrl}product/`);
+  return response.data;
+};
+
+export const getProductbyId = async (id: string) => {
+  const response: any = await axios.get(`${baseUrl}product/${id}`);
+  return response.data;
 };

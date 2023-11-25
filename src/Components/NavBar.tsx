@@ -29,10 +29,6 @@ const NavBar = () => {
         }}
       />
       <div className="flex gap-8">
-        {/* <div className="flex items-center gap-1">
-          <p>Categories</p>
-          <BiSolidChevronDown />
-        </div> */}
         <div>
           <Menu as="div" className="relative inline-block text-left">
             <div>
@@ -61,7 +57,7 @@ const NavBar = () => {
                             : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          navigate('/products/1');
+                          navigate('/products/Men');
                         }}
                       >
                         {/* <BiUser />
@@ -79,11 +75,9 @@ const NavBar = () => {
                             : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          navigate('/products/2');
+                          navigate('/products/Women');
                         }}
                       >
-                        {/* <BiLogOut />
-                        Log out */}
                         Women
                       </button>
                     )}
@@ -97,11 +91,9 @@ const NavBar = () => {
                             : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          navigate('/products/3');
+                          navigate('/products/Kids');
                         }}
                       >
-                        {/* <BiLogOut />
-                        Log out */}
                         Kids
                       </button>
                     )}
