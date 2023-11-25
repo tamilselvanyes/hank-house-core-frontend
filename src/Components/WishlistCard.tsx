@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Product } from '../pages/Products/Model';
+import { getProductbyId } from '../utils/helpers';
 
 interface WishlistItem {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
+  userId: string;
+  productId: string;
 }
 
 interface WishlistCardProps {
@@ -13,6 +12,18 @@ interface WishlistCardProps {
 }
 
 const WishlistCard: React.FC<WishlistCardProps> = ({ item }) => {
+  const [product, setProduct] = useState<Product>();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      const productId = item.productId;
+      const productFromDB: Product = await getProductbyId(productId);
+      console.log('the wishlisted product', productFromDB);
+      productFromDB !== undefined && setProduct(productFromDB);
+    };
+
+    getProduct();
+  }, []);
   return (
     // <div className="max-w-sm rounded overflow-hidden shadow-lg">
     //   <img className="w-full" src={item.image} alt={item.name} />
@@ -42,11 +53,11 @@ const WishlistCard: React.FC<WishlistCardProps> = ({ item }) => {
         className="h-[420px] object-cover"
       />
       <div className="w-[100%]">
-        <p className="text-lg">{'props.product.title'}</p>
+        <p className="text-lg">{product?.title}</p>
         <p className="italic text-sm text-slate-600">
-          {'props.product.description'}
+          {product?.description}
         </p>
-        <p>$ '{'props.product.variants[0].price'}' </p>
+        <p>$ {product?.variants[0].price} </p>
         <div className="flex align-middle justify-between mt-2">
           <button className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Add to Cart

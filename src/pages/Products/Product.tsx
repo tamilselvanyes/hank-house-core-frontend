@@ -15,7 +15,7 @@ const ProductPage = () => {
   const params = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    const getAllProduct = async () => {
+    const getProduct = async () => {
       if (params.id != undefined) {
         const productFromDB: Product = await getProductbyId(
           params.id
@@ -24,7 +24,7 @@ const ProductPage = () => {
       }
     };
 
-    getAllProduct();
+    getProduct();
   }, []);
 
   return (

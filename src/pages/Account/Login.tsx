@@ -10,12 +10,14 @@ import { BiLogoGmail } from 'react-icons/bi';
 const Login = () => {
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies();
   const handleLogin = async () => {
     try {
       const response = await loginUser(userName, password);
       if (response) {
+        console.log('login response', response.data.id);
         setCookie('token', response.data.accessToken);
+        setCookie('user_id', response.data.id);
         navigate('/');
       }
     } catch (error) {

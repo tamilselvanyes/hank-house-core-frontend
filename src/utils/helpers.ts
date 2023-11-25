@@ -48,3 +48,26 @@ export const getProductbyId = async (id: string) => {
   const response: any = await axios.get(`${baseUrl}product/${id}`);
   return response.data;
 };
+
+export const getWishlist = async (user_id: string) => {
+  const response = await axios.get(
+    `${baseUrl}wishlist/?userId=${user_id}`
+  );
+  return response;
+};
+
+export const createWishlist = async (
+  user_id: string,
+  productId: string
+) => {
+  const resp = await axios.post(`${baseUrl}wishlist/`, {
+    userId: user_id,
+    productId: productId,
+  });
+  return resp;
+};
+
+export const removeFromWishlist = async (itemId: string) => {
+  const resp = await axios.delete(`${baseUrl}wishlist/${itemId}`);
+  return resp;
+};

@@ -3,6 +3,7 @@ import { registerUser } from '../../utils/helpers';
 import InputTextComponent from '../../Components/InputTextComponent';
 import PasswordTextComponent from '../../Components/PasswordTextComponent';
 import loginImage from '../../assets/images/image-login.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [userName, setUserName] = useState<string>('');
@@ -10,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [role, setRole] = useState('user');
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
@@ -22,6 +24,7 @@ const Register = () => {
           role
         );
         console.log('registered user', response);
+        navigate('/login');
       } catch (error) {
         console.log(error);
       }
