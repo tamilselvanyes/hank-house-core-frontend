@@ -1,4 +1,4 @@
-import { Product } from '../pages/Products/Model';
+import { Product, ReviewModel } from '../pages/Products/Model';
 import { characters } from './constant';
 import axios from 'axios';
 
@@ -71,3 +71,15 @@ export const removeFromWishlist = async (itemId: string) => {
   const resp = await axios.delete(`${baseUrl}wishlist/${itemId}`);
   return resp;
 };
+
+export const getAllReviewsbyId = async (productId: string) => {
+  const resp = await axios.get(
+    `${baseUrl}review/?productId=${productId}`
+  );
+  return resp;
+};
+
+export const addNewReview = async (body:ReviewModel)=>{
+  const resp = await axios.post(`${baseUrl}review/`,body);
+  return resp;
+}

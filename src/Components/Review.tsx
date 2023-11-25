@@ -1,12 +1,12 @@
 import React from 'react';
 
 export interface ReviewProps {
-    name: string;
-    comment: string;
-    rating: number;
-  }
+  name: string;
+  comment: string;
+  rating: string;
+}
 
-  const Review: React.FC<ReviewProps> = ({ name, comment, rating }) => {
+const Review: React.FC<ReviewProps> = ({ name, comment, rating }) => {
   return (
     <div className="border p-4 mb-4">
       <h3 className="text-xl font-bold mb-2">{name}</h3>

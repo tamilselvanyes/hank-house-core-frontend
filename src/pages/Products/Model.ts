@@ -29,3 +29,10 @@ export interface Variant {
   price: number;
   discountPercentage: number;
 }
+
+export interface ReviewModel {
+  productId: string;
+  review: string;
+  stars: string;
+  userName: string;
+}

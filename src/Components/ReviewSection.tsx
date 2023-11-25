@@ -2,8 +2,12 @@ import React from 'react';
 import Review from './Review';
 
 const reviewsData = [
-  { name: 'John Doe', comment: 'Great product!', rating: 5 },
-  { name: 'Jane Smith', comment: 'Very satisfied with my purchase.', rating: 4 },
+  { name: 'John Doe', comment: 'Great product!', rating: '5' },
+  {
+    name: 'Jane Smith',
+    comment: 'Very satisfied with my purchase.',
+    rating: '4',
+  },
   // Add more review data as needed
 ];
 

@@ -68,6 +68,9 @@ const ProductCard = (props: ProductCardProps) => {
         src={props.product.images[0]}
         alt="product"
         className="h-[420px] object-cover"
+        onClick={() => {
+          navigate(`/product/${props.product.id}`);
+        }}
       />
       <div className="w-[100%]">
         <p className="text-lg">{props.product.title}</p>

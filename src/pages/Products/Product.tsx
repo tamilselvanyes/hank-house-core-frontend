@@ -1,41 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import { getProductbyId } from '../../utils/helpers';
+import {
+  getAllReviewsbyId,
+  getProductbyId,
+} from '../../utils/helpers';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Product, Variant } from './Model';
+import { Product, ReviewModel, Variant } from './Model';
 import { BsHeart } from 'react-icons/bs';
 import { BiCart } from 'react-icons/bi';
 
 import Test from './Test';
 import { Carousel } from '@material-tailwind/react';
+import Review from '../../Components/Review';
+import AddReview from '../../Components/AddReview';
 
 const ProductPage = () => {
   const [productItem, setProductItem] = useState<Product>();
   const [price, setPrice] = useState<Variant>();
   const [quantity, setQuantity] = useState<number>(0);
+  const [reviews, setReviews] = useState<ReviewModel[]>();
   const params = useParams();
+  const [prodId, setProdId] = useState<string>();
   const navigate = useNavigate();
   useEffect(() => {
     const getProduct = async () => {
-      if (params.id != undefined) {
+      if (params.id !== undefined) {
+        setProdId(params.id);
         const productFromDB: Product = await getProductbyId(
           params.id
         );
+
         setProductItem(productFromDB);
       }
     };
 
+    const getReviews = async () => {
+      if (params.id !== undefined) {
+        const reviews = await getAllReviewsbyId(params.id);
+        console.log('check the reviews from DB', reviews, params.id);
+        setReviews(reviews.data);
+      }
+    };
+
     getProduct();
+    getReviews();
   }, []);
 
   return (
     <div className="p-7">
       <div className="flex gap-5">
         <div className="w-[50%]">
-          <img
-            src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
-            alt="1"
-            className="object-cover"
-          />
+          {productItem && (
+            <img
+              src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+              alt="1"
+              className="object-cover"
+            />
+          )}
         </div>
         <div className="w-[50%]">
           <div className="flex justify-between items-center">
@@ -129,6 +149,25 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
+      <section className="mt-5">
+        <div>
+          <h1 className="text-2xl">Reviews</h1>
+          {reviews !== undefined &&
+            reviews.map((r) => {
+              return (
+                <Review
+                  name={r.userName}
+                  comment={r.review}
+                  rating={r.stars}
+                />
+              );
+            })}
+        </div>
+        <div className="mt-4">
+          <h1>Add a Review</h1>
+          <AddReview productId={prodId} />
+        </div>
+      </section>
     </div>
   );
 };
