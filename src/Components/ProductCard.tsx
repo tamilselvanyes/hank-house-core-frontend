@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
-import { BsHeart } from 'react-icons/bs';
-import { RiHeart3Fill } from 'react-icons/ri';
-import { Product } from '../pages/Products/Model';
-import { useNavigate } from 'react-router-dom';
-import {
-  createWishlist,
-  getWishlist,
-  removeFromWishlist,
-} from '../utils/helpers';
+import { BsHeart } from "react-icons/bs";
+import { RiHeart3Fill } from "react-icons/ri";
+import { Product } from "../pages/Products/Model";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAppContainerState } from "../pages/AppContainer/slice/selector";
+import { useAppContainerSlice } from "../pages/AppContainer/slice";
 
 export interface ProductCardProps {
   product: Product;
@@ -17,25 +15,42 @@ export interface ProductCardProps {
 
 const ProductCard = (props: ProductCardProps) => {
   const [cookies, setCookie, removeCookie] = useCookies();
-
-  const [wishlisted, setWishlisted] = useState<boolean>(false);
+  const disptach = useDispatch();
+  const { appContainerActions } = useAppContainerSlice();
+  const appContainerStates = useSelector(selectAppContainerState);
+  const { wishList } = appContainerStates;
+  const [isWishlistItem, setIsWishlistItem] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setIsWishlistItem(
+      wishList
+        .map((wishlist: any) => wishlist.productId)
+        .includes(props.product.id)
+    );
+  }, [wishList]);
   const handleWishlist = async () => {
     const userId = cookies.user_id;
     if (!userId) {
-      navigate('/login');
+      navigate("/login");
     } else {
-      const wishList = await getWishlist(userId);
-      if (!wishlisted) {
-        const makeWishList = await createWishlist(
-          userId,
-          props.product.id
-        );
-        if (makeWishList.status == 201) setWishlisted(true);
+      const isProductInWishlist = wishList.filter(
+        (wish: any) => wish.productId === props.product.id
+      )[0];
+      const newWishlist = {
+        userId: userId,
+        productId: props.product.id,
+      };
+
+      if (!isProductInWishlist) {
+        disptach(appContainerActions.createWishlist(newWishlist));
       } else {
-        const deleteItem = await removeFromWishlist(props.product.id);
-        setWishlisted(false);
+        disptach(
+          appContainerActions.removeWishList({
+            userId: userId,
+            wishlistId: isProductInWishlist.id,
+          })
+        );
       }
     }
   };
@@ -43,24 +58,11 @@ const ProductCard = (props: ProductCardProps) => {
   const handleCart = async () => {
     const userId = cookies.user_id;
     if (!userId) {
-      navigate('/login');
+      navigate("/login");
     } else {
       // const
     }
   };
-
-  useEffect(() => {
-    const getWishlisted = async () => {
-      const userId = cookies.user_id;
-      const response = await getWishlist(userId);
-      const isProductIdIncluded = response.data.some(
-        (item: any) => item.productId === props.product.id
-      );
-      isProductIdIncluded && setWishlisted(true);
-    };
-
-    getWishlisted();
-  }, [wishlisted]);
 
   return (
     <div className="w-80 h-[580px] mt-10  p-3 rounded-lg bg-[#f4f6f4] flex flex-col items-center gap-2 cursor-pointer">
@@ -85,7 +87,11 @@ const ProductCard = (props: ProductCardProps) => {
             }}
           >
             <button>
-              {wishlisted ? <RiHeart3Fill /> : <BsHeart />}
+              {isWishlistItem ? (
+                <RiHeart3Fill className="text-red-700" />
+              ) : (
+                <BsHeart />
+              )}
             </button>
           </div>
           <button className="bg-[#228706] p-2 rounded-md text-white">

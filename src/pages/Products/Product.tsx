@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import {
-  getAllReviewsbyId,
-  getProductbyId,
-} from '../../utils/helpers';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Product, ReviewModel, Variant } from './Model';
-import { BsHeart } from 'react-icons/bs';
-import { BiCart } from 'react-icons/bi';
+import React, { useEffect, useState } from "react";
+import { getAllReviewsbyId, getProductbyId } from "../../utils/helpers";
+import { useNavigate, useParams } from "react-router-dom";
+import { Product, ReviewModel, Variant } from "./Model";
+import { BsHeart } from "react-icons/bs";
+import { BiCart } from "react-icons/bi";
 
-import Test from './Test';
-import { Carousel } from '@material-tailwind/react';
-import Review from '../../Components/Review';
-import AddReview from '../../Components/AddReview';
+import Test from "./Test";
+import { Carousel } from "@material-tailwind/react";
+import Review from "../../components/Review";
+import AddReview from "../../components/AddReview";
 
 const ProductPage = () => {
   const [productItem, setProductItem] = useState<Product>();
@@ -25,9 +22,7 @@ const ProductPage = () => {
     const getProduct = async () => {
       if (params.id !== undefined) {
         setProdId(params.id);
-        const productFromDB: Product = await getProductbyId(
-          params.id
-        );
+        const productFromDB: Product = await getProductbyId(params.id);
 
         setProductItem(productFromDB);
       }
@@ -36,7 +31,7 @@ const ProductPage = () => {
     const getReviews = async () => {
       if (params.id !== undefined) {
         const reviews = await getAllReviewsbyId(params.id);
-        console.log('check the reviews from DB', reviews, params.id);
+        console.log("check the reviews from DB", reviews, params.id);
         setReviews(reviews.data);
       }
     };
@@ -68,9 +63,7 @@ const ProductPage = () => {
           </p>
           <div className="mt-3">
             <p className="font-semibold">Description:</p>
-            <p className="text-md font-light">
-              {productItem?.description}
-            </p>
+            <p className="text-md font-light">{productItem?.description}</p>
           </div>
           <p className="font-semibold mt-2">
             Colors Available: &nbsp;
@@ -94,9 +87,7 @@ const ProductPage = () => {
             ))}
           </p>
           {price && (
-            <p className="text-md font-light">
-              Selected Size: {price?.size}
-            </p>
+            <p className="text-md font-light">Selected Size: {price?.size}</p>
           )}
           <div className="flex justify-around items-center mt-4">
             <p className="font-semibold  text-2xl">
@@ -132,14 +123,12 @@ const ProductPage = () => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={() => {
-                navigate('/buy-now', {
+                navigate("/buy-now", {
                   state: {
                     product: productItem,
                     quantity: quantity === 0 ? 1 : quantity,
-                    price:
-                      price?.price || productItem?.variants[0].price,
-                    size:
-                      price?.size || productItem?.variants[0].size,
+                    price: price?.price || productItem?.variants[0].price,
+                    size: price?.size || productItem?.variants[0].size,
                   },
                 });
               }}
@@ -155,11 +144,7 @@ const ProductPage = () => {
           {reviews !== undefined &&
             reviews.map((r) => {
               return (
-                <Review
-                  name={r.userName}
-                  comment={r.review}
-                  rating={r.stars}
-                />
+                <Review name={r.userName} comment={r.review} rating={r.stars} />
               );
             })}
         </div>
