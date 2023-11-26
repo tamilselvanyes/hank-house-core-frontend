@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import NavBar from '../../Components/NavBar';
-import heroPoster from '../../assets/images/hero-img2.png';
+import React, { useEffect, useState } from "react";
+import NavBar from "../../components/NavBar";
+import heroPoster from "../../assets/images/hero-img2.png";
 // import categoryMen from '../../assets/images/category-men.png';
 // import categoryWomen from '../../assets/images/category-women.png';
 // import categoryKid from '../../assets/images/category-kid.jpeg';
-import CategoryCard from '../../Components/CategoryCard';
-import { Categories } from '../../constant/index';
-import { useNavigate } from 'react-router-dom';
-import ReviewSection from '../../Components/ReviewSection';
-import { Product } from '../Products/Model';
-import { getProducts } from '../../utils/helpers';
-import ProductCard from '../../Components/ProductCard';
+import CategoryCard from "../../components/CategoryCard";
+import { Categories } from "../../constant/index";
+import { useNavigate } from "react-router-dom";
+import ReviewSection from "../../components/ReviewSection";
+import { Product } from "../Products/Model";
+import { getProducts } from "../../utils/helpers";
+import ProductCard from "../../components/ProductCard";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -29,13 +29,12 @@ const Home = () => {
         {/* <img src={heroPoster} alt="Hero poster" /> */}
         <div className="pr-10">
           <p className=" text-4xl  text-[#245114] pb-6">
-            Wear your favourite dress <br /> for your favourite
-            Occasion{' '}
+            Wear your favourite dress <br /> for your favourite Occasion{" "}
           </p>
           <button
             className="bg-[#245114] hover:bg-[#228706] text-white font-bold py-2 px-4 rounded-full w-40"
             onClick={() => {
-              navigate('/products');
+              navigate("/products");
             }}
           >
             Buy Now
@@ -58,7 +57,7 @@ const Home = () => {
         <h2
           className="text-3xl"
           onClick={() => {
-            navigate('/products/Men');
+            navigate("/products/Men");
           }}
         >
           Shop trending for Men
@@ -66,18 +65,15 @@ const Home = () => {
         <div className="flex gap-5 overflow-hidden">
           {products != undefined &&
             products
-              .filter((product: any) => product.category === 'Men')
-              .map(
-                (p: any, index) =>
-                  index < 5 && <ProductCard product={p} />
-              )}
+              .filter((product: any) => product.category === "Men")
+              .map((p: any, index) => index < 5 && <ProductCard product={p} />)}
         </div>
       </section>
       <section className="px-5 mt-3">
         <h2
           className="text-3xl"
           onClick={() => {
-            navigate('/products/Women');
+            navigate("/products/Women");
           }}
         >
           Shop trending for Women
@@ -85,11 +81,8 @@ const Home = () => {
         <div className="flex gap-5 overflow-hidden">
           {products != undefined &&
             products
-              .filter((product: any) => product.category === 'Women')
-              .map(
-                (p: any, index) =>
-                  index < 5 && <ProductCard product={p} />
-              )}
+              .filter((product: any) => product.category === "Women")
+              .map((p: any, index) => index < 5 && <ProductCard product={p} />)}
         </div>
       </section>
       <section className="px-5">

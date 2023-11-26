@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useState } from 'react';
 import { registerUser } from '../../utils/helpers';
 import InputTextComponent from '../../Components/InputTextComponent';
@@ -12,11 +13,26 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [role, setRole] = useState('user');
   const navigate = useNavigate();
+=======
+import React, { useState } from "react";
+import { registerUser } from "../../utils/helpers";
+import InputTextComponent from "../../components/InputTextComponent";
+import PasswordTextComponent from "../../components/PasswordTextComponent";
+import loginImage from "../../assets/images/image-login.jpg";
+
+const Register = () => {
+  const [userName, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [role, setRole] = useState("user");
+>>>>>>> Stashed changes
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
     } else {
       try {
+<<<<<<< Updated upstream
         const response = await registerUser(
           email,
           password,
@@ -25,6 +41,10 @@ const Register = () => {
         );
         console.log('registered user', response);
         navigate('/login');
+=======
+        const response = await registerUser(email, password, userName, role);
+        console.log("registered user", response);
+>>>>>>> Stashed changes
       } catch (error) {
         console.log(error);
       }
