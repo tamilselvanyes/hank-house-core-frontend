@@ -8,28 +8,17 @@ import loginImage from "../../assets/images/image-login.jpg";
 import { BiLogoGmail } from "react-icons/bi";
 
 const Login = () => {
-<<<<<<< Updated upstream
-  const [userName, setUserName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [cookies, setCookie, removeCookie] = useCookies();
-=======
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
->>>>>>> Stashed changes
+  const [cookies, setCookie, removeCookie] = useCookies();
   const handleLogin = async () => {
     try {
       const response = await loginUser(userName, password);
       if (response) {
-<<<<<<< Updated upstream
-        console.log('login response', response.data.id);
-        setCookie('token', response.data.accessToken);
-        setCookie('user_id', response.data.id);
-        navigate('/');
-=======
+        console.log("login response", response.data.id);
         setCookie("token", response.data.accessToken);
+        setCookie("user_id", response.data.id);
         navigate("/");
->>>>>>> Stashed changes
       }
     } catch (error) {
       console.log(error);

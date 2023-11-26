@@ -6,12 +6,18 @@ import {
 } from "../../../store/reducer-injectors";
 
 import { appContainerSaga } from "./saga";
-import { AppContainerStates } from "./types";
+import {
+  AppContainerStates,
+  wishlistCreation,
+  wishlistDeletion,
+} from "./types";
 
 export const initialState: AppContainerStates = {
   pingResponse: "",
   productLoading: false,
   productList: [],
+  wishlistLoading: false,
+  wishList: [],
 };
 const slice = createSlice({
   name: "appContainer",
@@ -28,6 +34,24 @@ const slice = createSlice({
     },
     setProduct(state: AppContainerStates, action: PayloadAction<any[]>) {
       state.productList = action.payload;
+    },
+    getWishList(state: AppContainerStates, action: PayloadAction<string>) {
+      state.wishlistLoading = true;
+    },
+    setWishlist(state: AppContainerStates, action: PayloadAction<any[]>) {
+      state.wishList = action.payload;
+    },
+    createWishlist(
+      state: AppContainerStates,
+      action: PayloadAction<wishlistCreation>
+    ) {
+      state.wishlistLoading = true;
+    },
+    removeWishList(
+      state: AppContainerStates,
+      action: PayloadAction<wishlistDeletion>
+    ) {
+      state.wishlistLoading = true;
     },
   },
 });

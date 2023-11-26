@@ -1,24 +1,9 @@
-<<<<<<< Updated upstream
-import React, { useState } from 'react';
-import { registerUser } from '../../utils/helpers';
-import InputTextComponent from '../../Components/InputTextComponent';
-import PasswordTextComponent from '../../Components/PasswordTextComponent';
-import loginImage from '../../assets/images/image-login.jpg';
-import { useNavigate } from 'react-router-dom';
-
-const Register = () => {
-  const [userName, setUserName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [role, setRole] = useState('user');
-  const navigate = useNavigate();
-=======
 import React, { useState } from "react";
 import { registerUser } from "../../utils/helpers";
 import InputTextComponent from "../../components/InputTextComponent";
 import PasswordTextComponent from "../../components/PasswordTextComponent";
 import loginImage from "../../assets/images/image-login.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [userName, setUserName] = useState<string>("");
@@ -26,25 +11,15 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [role, setRole] = useState("user");
->>>>>>> Stashed changes
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
     } else {
       try {
-<<<<<<< Updated upstream
-        const response = await registerUser(
-          email,
-          password,
-          userName,
-          role
-        );
-        console.log('registered user', response);
-        navigate('/login');
-=======
         const response = await registerUser(email, password, userName, role);
         console.log("registered user", response);
->>>>>>> Stashed changes
+        navigate("/login");
       } catch (error) {
         console.log(error);
       }
