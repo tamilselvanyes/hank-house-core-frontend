@@ -94,7 +94,12 @@ const BuyNow = () => {
             <h3>Total cost</h3>
             <h3>${total?.toFixed(2)}</h3>
           </div>
-          <button className="checkout-btn">checkout</button>
+          <button
+            className="checkout-btn"
+            onClick={() => navigate('/checkout')}
+          >
+            checkout
+          </button>
         </div>
       </div>
     </div>
