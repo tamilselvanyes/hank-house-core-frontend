@@ -1,15 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import ProductCard from "../../components/ProductCard";
-import { Products as ProductsItems, IProductsTypes } from "../../constant";
-import { getProducts } from "../../utils/helpers";
-import { Product } from "./Model";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import ProductCard from '../../components/ProductCard';
+import {
+  Products as ProductsItems,
+  IProductsTypes,
+} from '../../constant';
+import { getProducts } from '../../utils/helpers';
+import { Product } from './Model';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAppContainerSlice } from '../AppContainer/slice';
+import { selectAppContainerState } from '../AppContainer/slice/selector';
 
 const Products = () => {
   // const [selectedPrice, setSelectedPrice] = useState();
   const [products, setProducts] = useState<Product[]>();
   const params = useParams();
   const location = useLocation();
+  // const disptach = useDispatch();
+  // const { appContainerActions } = useAppContainerSlice();
+
+  // const appContainerStates = useSelector(selectAppContainerState);
+
+  // const { productList } = appContainerStates;
+
   useEffect(() => {
     const getAllProducts = async () => {
       const productFromDB: Product[] = await getProducts();
@@ -75,11 +88,13 @@ const Products = () => {
       <section className="px-5 py-5">
         <h2 className="text-3xl">Products for you!</h2>
         <div className="grid grid-cols-4 gap-4">
-          {location.pathname === "/products" && products != undefined
+          {location.pathname === '/products' && products != undefined
             ? products.map((p: any) => <ProductCard product={p} />)
             : products != undefined &&
               products
-                .filter((product: any) => product.category === params.id)
+                .filter(
+                  (product: any) => product.category === params.id
+                )
                 .map((p: any) => <ProductCard product={p} />)}
         </div>
       </section>

@@ -1,14 +1,15 @@
-import { API_URLS } from "../../../constant/index";
-import { call, put, select, takeLatest } from "redux-saga/effects";
-import { request } from "../../../service/request/index";
-import { appContainerActions as actions } from "./index";
-import { useCookies } from "react-cookie";
+import { API_URLS } from '../../../constant/index';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { request } from '../../../service/request/index';
+import { appContainerActions as actions } from './index';
+import { useCookies } from 'react-cookie';
+import { Product } from '../../Products/Model';
 
 export function* pingTest(data: any) {
   try {
-    console.log(API_URLS, "Called api");
+    console.log(API_URLS, 'Called api');
     let responseData: string = yield call(request, `${API_URLS}`, {
-      method: "get",
+      method: 'get',
     });
 
     if (responseData.length > 0) {
@@ -18,13 +19,25 @@ export function* pingTest(data: any) {
   }
 }
 
+export function* getProduct() {
+  try {
+    console.log('Product Data @ create==>');
+    let responseData: Product[] = yield call(
+      request,
+      `${API_URLS}/products`,
+      { method: 'get' }
+    );
+    yield put(actions.setProduct(responseData));
+  } catch (error) {}
+}
+
 export function* getWishList(data: any) {
   try {
     let responseData: any[] = yield call(
       request,
       `${API_URLS}/wishlist?userId=${data.payload}`,
       {
-        method: "get",
+        method: 'get',
       }
     );
     yield put(actions.setWishlist(responseData));
@@ -34,13 +47,15 @@ export function* getWishList(data: any) {
 }
 
 export function* createWishlist(data: any) {
-  console.log(data, "Data @ create==>");
-
   try {
-    let responseData: string = yield call(request, `${API_URLS}/wishlist`, {
-      method: "post",
-      body: JSON.stringify(data.payload),
-    });
+    let responseData: string = yield call(
+      request,
+      `${API_URLS}/wishlist`,
+      {
+        method: 'post',
+        body: JSON.stringify(data.payload),
+      }
+    );
 
     yield put(actions.getWishList(data.payload.userId));
   } catch (error) {
@@ -56,7 +71,7 @@ export function* removeWishlist(data: any) {
       request,
       `${API_URLS}/wishlist/${payload.wishlistId}`,
       {
-        method: "delete",
+        method: 'delete',
       }
     );
     yield put(actions.getWishList(payload.userId));
@@ -67,7 +82,7 @@ export function* removeWishlist(data: any) {
 
 export function* appContainerSaga() {
   yield takeLatest(actions.pingTest, pingTest);
-  yield takeLatest(actions.getProduct, pingTest);
+  yield takeLatest(actions.getProduct, getProduct);
   yield takeLatest(actions.getWishList, getWishList);
   yield takeLatest(actions.createWishlist, createWishlist);
   yield takeLatest(actions.removeWishList, removeWishlist);
