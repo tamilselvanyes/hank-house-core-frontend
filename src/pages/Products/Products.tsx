@@ -13,23 +13,20 @@ import { selectAppContainerState } from '../AppContainer/slice/selector';
 
 const Products = () => {
   // const [selectedPrice, setSelectedPrice] = useState();
-  const [products, setProducts] = useState<Product[]>();
+  // const [products, setProducts] = useState<Product[]>();
   const params = useParams();
   const location = useLocation();
-  // const disptach = useDispatch();
-  // const { appContainerActions } = useAppContainerSlice();
+  const disptach = useDispatch();
+  const { appContainerActions } = useAppContainerSlice();
 
-  // const appContainerStates = useSelector(selectAppContainerState);
+  const appContainerStates = useSelector(selectAppContainerState);
 
-  // const { productList } = appContainerStates;
+  const { productList } = appContainerStates;
+
+  console.log('product list in products page', productList);
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      const productFromDB: Product[] = await getProducts();
-      setProducts(productFromDB);
-    };
-
-    getAllProducts();
+    
   }, []);
   return (
     <div className="w-full p-6">
@@ -88,10 +85,11 @@ const Products = () => {
       <section className="px-5 py-5">
         <h2 className="text-3xl">Products for you!</h2>
         <div className="grid grid-cols-4 gap-4">
-          {location.pathname === '/products' && products != undefined
-            ? products.map((p: any) => <ProductCard product={p} />)
-            : products != undefined &&
-              products
+          {location.pathname === '/products' &&
+          productList != undefined
+            ? productList.map((p: any) => <ProductCard product={p} />)
+            : productList != undefined &&
+              productList
                 .filter(
                   (product: any) => product.category === params.id
                 )

@@ -140,9 +140,7 @@ function App() {
         <NavBar />
       </div>
       <div style={{ paddingTop: '70px' }}>
-        <AppContainer>
-          <MainRoute />
-        </AppContainer>
+        <MainRoute />
       </div>
       <div className="pt-9 bottom-0 left-0 right-0">
         <Footer />

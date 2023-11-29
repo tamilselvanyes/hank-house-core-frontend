@@ -21,10 +21,9 @@ export function* pingTest(data: any) {
 
 export function* getProduct() {
   try {
-    console.log('Product Data @ create==>');
     let responseData: Product[] = yield call(
       request,
-      `${API_URLS}/products`,
+      `${API_URLS}/product/`,
       { method: 'get' }
     );
     yield put(actions.setProduct(responseData));

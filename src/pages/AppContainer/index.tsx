@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useAppContainerSlice } from './slice/index';
-import { useDispatch } from 'react-redux';
-import Login from '../Account/Login';
-import Register from '../Account/Register';
-import NavBar from '../../components/NavBar';
+import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
+import { selectAppContainerState } from './slice/selector';
 
 interface IProps {
   children: React.ReactNode;
@@ -24,9 +22,10 @@ export default function AppContainer({ children }: IProps) {
   }, []);
 
   return (
-    <div className="font-bold flex justify-center items-center flex-col w-full">
-      {/* <NavBar /> */}
-      {children}
-    </div>
+    <>
+      <div className="font-bold flex justify-center items-center flex-col w-full">
+        {children}
+      </div>
+    </>
   );
 }
