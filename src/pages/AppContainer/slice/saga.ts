@@ -118,9 +118,27 @@ export function* createCartItem(data: any) {
   }
 }
 
+export function* updateCartItemQuantity(data: any) {
+  console.log('')
+  const payload = data.payload;
+  try {
+    let responseData: string = yield call(
+      request,
+      `${API_URLS}/cart/${payload.id}?action=${payload.action}`,
+      {
+        method: 'put',
+        body: JSON.stringify(data.payload),
+      }
+    );
+
+    yield put(actions.getCartItem(data.payload.userId));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* removeCartItem(data: any) {
   const payload = data.payload;
-  console.log('=======>', data);
   try {
     let responseData: string = yield call(
       request,
@@ -152,7 +170,6 @@ export function* getReviews(data: any) {
 
 export function* addNewReview(data: any) {
   const payload = data.payload;
-  console.log('=====>add review', payload);
   try {
     let responseData: string = yield call(
       request,
@@ -164,6 +181,75 @@ export function* addNewReview(data: any) {
     );
 
     yield put(actions.getReviews(data.payload.productId));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function* getAddress(data: any) {
+  try {
+    let responseData: any[] = yield call(
+      request,
+      `${API_URLS}/address/?userId=${data.payload}`,
+      {
+        method: 'get',
+      }
+    );
+    yield put(actions.setAddress(responseData));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* addNewAddress(data: any) {
+  const payload = data.payload;
+  try {
+    let responseData: string = yield call(
+      request,
+      `${API_URLS}/address`,
+      {
+        method: 'post',
+        body: JSON.stringify(payload),
+      }
+    );
+
+    yield put(actions.getAddress(data.payload.userId));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* updateAddress(data: any) {
+  const payload = data.payload;
+  try {
+    let responseData: string = yield call(
+      request,
+      `${API_URLS}/address?id=${payload.id}`,
+      {
+        method: 'post',
+        body: JSON.stringify(payload),
+      }
+    );
+
+    yield put(actions.getAddress(data.payload.userId));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* signIn(data: any) {
+  const payload = data.payload;
+
+  console.log('---->login api', payload);
+  try {
+    let responseData: string = yield call(
+      request,
+      `${API_URLS}/auth/signin`,
+      {
+        method: 'post',
+        body: JSON.stringify(payload),
+      }
+    );
+    yield put(actions.setUserData(responseData));
   } catch (error) {
     console.log(error);
   }
@@ -180,4 +266,12 @@ export function* appContainerSaga() {
   yield takeLatest(actions.removeCartItem, removeCartItem);
   yield takeLatest(actions.getReviews, getReviews);
   yield takeLatest(actions.addnewreview, addNewReview);
+  yield takeLatest(actions.getAddress, getAddress);
+  yield takeLatest(actions.addNewAddress, addNewAddress);
+  yield takeLatest(actions.updateAddress, updateAddress);
+  yield takeLatest(actions.signIn, signIn);
+  yield takeLatest(
+    actions.updateCartItemQuantity,
+    updateCartItemQuantity
+  );
 }

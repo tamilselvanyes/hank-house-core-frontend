@@ -10,6 +10,19 @@ export interface AppContainerStates {
   cart: any[];
   reviews: any[];
   reviewLoading: boolean;
+  addressLoading: boolean;
+  address: any;
+  signInLoading: boolean;
+  userData: any;
+}
+
+export interface AddressType {
+  userId: string;
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  isDefault: boolean;
 }
 
 export interface wishlistCreation {

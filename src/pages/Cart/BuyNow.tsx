@@ -3,6 +3,7 @@ import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Items from './Items';
 import { useLabels } from '@headlessui/react/dist/components/label/label';
+import ItemsBuyNow from './ItemsBuyNow';
 
 const BuyNow = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const BuyNow = () => {
             </div> */}
           </div>
           <div className="items-container p-6">
-            <Items
+            <ItemsBuyNow
               product={location.state.product}
               price={location.state.price}
               quantity={location.state.quantity}

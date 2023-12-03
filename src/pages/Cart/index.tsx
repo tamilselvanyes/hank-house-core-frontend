@@ -2,17 +2,40 @@ import React, { useEffect, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Items from './Items';
+import { selectAppContainerState } from '../AppContainer/slice/selector';
+import { useSelector } from 'react-redux';
+import { useAppContainerSlice } from '../AppContainer/slice';
 
 const Cart = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [subTotal, setSubTotal] = useState<number>();
   const [total, setTotal] = useState<number>();
+
+  const { appContainerActions } = useAppContainerSlice();
+  const appContainerStates = useSelector(selectAppContainerState);
+  const { cart, productList } = appContainerStates;
+
   useEffect(() => {
-    // console.log(location.state);
-    // setSubTotal(location.state.quantity * location.state.price);
-    // get cart products from DB and populate it here
+    calcultePrice();
   }, []);
+  useEffect(() => {
+    calcultePrice();
+  }, [cart]);
+
+  function calcultePrice() {
+    let totalPrice: number = 0;
+    cart.forEach((cartItem) => {
+      // Find the corresponding product based on productId
+      const product = productList.find(
+        (p) => p.id === cartItem.productId
+      );
+      if (product) {
+        totalPrice += cartItem.quantity * product.variants[0].price;
+      }
+    });
+    setSubTotal(totalPrice);
+  }
 
   const handleShipping = (e: any) => {
     const shipping = e.target.value;
@@ -41,13 +64,21 @@ const Cart = () => {
               <h3>Total</h3>
             </div> */}
           </div>
-          <div className="items-container p-6">
+          <div className="items-container p-6 ">
             {/* <Items
               product={location.state.product}
               price={location.state.price}
               quantity={location.state.quantity}
               size={location.state.size}
             /> */}
+            {cart.map((item: any) => (
+              <Items
+                cartId={item.id}
+                productId={item.productId}
+                quantity={item.quantity}
+                key={item.id}
+              />
+            ))}
           </div>
           <button
             className="cnt-btn"

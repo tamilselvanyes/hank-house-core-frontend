@@ -7,6 +7,7 @@ import {
 
 import { appContainerSaga } from './saga';
 import {
+  AddressType,
   AppContainerStates,
   cartDeletion,
   cartItemCreation,
@@ -25,6 +26,10 @@ export const initialState: AppContainerStates = {
   cart: [],
   reviewLoading: false,
   reviews: [],
+  addressLoading: false,
+  address: [],
+  signInLoading: false,
+  userData: {},
 };
 const slice = createSlice({
   name: 'appContainer',
@@ -84,6 +89,12 @@ const slice = createSlice({
     ) {
       state.cartLoading = true;
     },
+    updateCartItemQuantity(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ){
+      state.cartLoading=true;
+    },
     createCartItem(
       state: AppContainerStates,
       action: PayloadAction<cartItemCreation>
@@ -113,6 +124,39 @@ const slice = createSlice({
       action: PayloadAction<ReviewModel>
     ) {
       state.reviewLoading = true;
+    },
+    setAddress(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ) {
+      state.address = action.payload;
+    },
+    getAddress(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ) {
+      state.addressLoading = true;
+    },
+    addNewAddress(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ) {
+      state.addressLoading = true;
+    },
+    updateAddress(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ) {
+      state.addressLoading = true;
+    },
+    signIn(state: AppContainerStates, action: PayloadAction<any>) {
+      state.userData = action.payload;
+    },
+    setUserData(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ) {
+      state.userData = action.payload;
     },
   },
 });

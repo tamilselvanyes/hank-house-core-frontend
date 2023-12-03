@@ -1,19 +1,26 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { loginUser } from "../../utils/helpers";
-import InputTextComponent from "../../components/InputTextComponent";
-import PasswordTextComponent from "../../components/PasswordTextComponent";
-import loginImage from "../../assets/images/image-login.jpg";
-import { BiLogoGmail } from "react-icons/bi";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { loginUser } from '../../utils/helpers';
+import InputTextComponent from '../../components/InputTextComponent';
+import PasswordTextComponent from '../../components/PasswordTextComponent';
+import loginImage from '../../assets/images/image-login.jpg';
+import { BiLogoGmail } from 'react-icons/bi';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAppContainerSlice } from '../AppContainer/slice';
+import { selectAppContainerState } from '../AppContainer/slice/selector';
 
 const Login = () => {
-  const [userName, setUserName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [userName, setUserName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
+
+  const disptach = useDispatch();
+  const { appContainerActions } = useAppContainerSlice();
+  const appContainerStates = useSelector(selectAppContainerState);
 
   const handleLogin = async () => {
     try {
@@ -21,6 +28,9 @@ const Login = () => {
         toast.error('Username and password are required');
         return;
       }
+      const body = { username: userName, password: password };
+
+      disptach(appContainerActions.signIn(body));
 
       const response = await loginUser(userName, password);
 
@@ -31,9 +41,11 @@ const Login = () => {
 
       if (response) {
         toast.success('Login successful!');
-        setCookie("token", response.data.accessToken);
-        setCookie("user_id", response.data.id);
-        navigate("/");
+        setCookie('token', response.data.accessToken);
+        setCookie('user_id', response.data.id);
+        setCookie('username', response.data.username);
+        setCookie('email', response.data.email);
+        navigate('/');
       }
     } catch (error: any) {
       toast.error(`An error occurred during login: ${error.message}`);
@@ -94,7 +106,7 @@ const Login = () => {
             <span
               className="text-blue-700 cursor-pointer"
               onClick={() => {
-                navigate("/register");
+                navigate('/register');
               }}
             >
               Register

@@ -1,10 +1,10 @@
-import { Fragment } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { Fragment } from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, Transition } from '@headlessui/react';
 
-import logo from "../assets/images/Logo.svg";
+import logo from '../assets/images/Logo.svg';
 import {
   BiLogIn,
   BiLogOut,
@@ -12,7 +12,7 @@ import {
   BiCart,
   BiSolidChevronDown,
   BiShoppingBag,
-} from "react-icons/bi";
+} from 'react-icons/bi';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const NavBar = () => {
         alt="Logo"
         className="w-36 cursor-pointer"
         onClick={() => {
-          navigate("/");
+          navigate('/');
         }}
       />
       <div className="flex gap-8">
@@ -52,10 +52,12 @@ const NavBar = () => {
                     {({ active }) => (
                       <button
                         className={`${
-                          active ? "bg-[#228706] text-white" : "text-gray-900"
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          navigate("/products/Men");
+                          navigate('/products/Men');
                         }}
                       >
                         {/* <BiUser />
@@ -68,10 +70,12 @@ const NavBar = () => {
                     {({ active }) => (
                       <button
                         className={`${
-                          active ? "bg-[#228706] text-white" : "text-gray-900"
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          navigate("/products/Women");
+                          navigate('/products/Women');
                         }}
                       >
                         Women
@@ -82,10 +86,12 @@ const NavBar = () => {
                     {({ active }) => (
                       <button
                         className={`${
-                          active ? "bg-[#228706] text-white" : "text-gray-900"
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          navigate("/products/Kids");
+                          navigate('/products/Kids');
                         }}
                       >
                         Kids
@@ -100,7 +106,7 @@ const NavBar = () => {
         <p
           className="cursor-pointer"
           onClick={() => {
-            navigate("products");
+            navigate('products');
           }}
         >
           Deals
@@ -108,7 +114,7 @@ const NavBar = () => {
         <p
           className="cursor-pointer"
           onClick={() => {
-            navigate("products");
+            navigate('products');
           }}
         >
           What's New
@@ -169,10 +175,12 @@ const NavBar = () => {
                     {({ active }) => (
                       <button
                         className={`${
-                          active ? "bg-[#228706] text-white" : "text-gray-900"
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          navigate("/profile");
+                          navigate('/profile');
                         }}
                       >
                         <BiUser />
@@ -184,10 +192,15 @@ const NavBar = () => {
                     {({ active }) => (
                       <button
                         className={`${
-                          active ? "bg-[#228706] text-white" : "text-gray-900"
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          removeCookie("token");
+                          removeCookie('token');
+                          removeCookie('user_id');
+                          removeCookie('username');
+                          removeCookie('email');
                         }}
                       >
                         <BiLogOut />
@@ -203,7 +216,7 @@ const NavBar = () => {
           <div
             className="flex w-full items-center gap-2 cursor-pointer"
             onClick={() => {
-              navigate("/login");
+              navigate('/login');
             }}
           >
             <BiLogIn />
@@ -234,10 +247,14 @@ const NavBar = () => {
                     {({ active }) => (
                       <button
                         className={`${
-                          active ? "bg-[#228706] text-white" : "text-gray-900"
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          token ? navigate("/wishlist") : navigate("/login");
+                          token
+                            ? navigate('/wishlist')
+                            : navigate('/login');
                         }}
                       >
                         <BiShoppingBag />
@@ -249,10 +266,14 @@ const NavBar = () => {
                     {({ active }) => (
                       <button
                         className={`${
-                          active ? "bg-[#228706] text-white" : "text-gray-900"
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                         onClick={() => {
-                          token ? navigate("/cart") : navigate("/login");
+                          token
+                            ? navigate('/cart')
+                            : navigate('/login');
                         }}
                       >
                         <BiCart />

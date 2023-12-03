@@ -114,11 +114,13 @@ function App() {
             </AppContainer>
           }
         />
-         <Route
+        <Route
           path="/profile"
           element={
             <AppContainer>
-              <ProfilePage />
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
             </AppContainer>
           }
         />
