@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ReviewModel } from '../pages/Products/Model';
 import { addNewReview } from '../utils/helpers';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAppContainerSlice } from '../pages/AppContainer/slice';
+import { selectAppContainerState } from '../pages/AppContainer/slice/selector';
 
 interface AddReviewProps {
   productId: any;
@@ -10,17 +15,35 @@ const AddReview = (props: AddReviewProps) => {
   const [name, setName] = useState<string>('');
   const [review, setReview] = useState<string>('');
   const [rating, setRating] = useState<string>('');
+  const disptach = useDispatch();
+  const { appContainerActions } = useAppContainerSlice();
+  const appContainerStates = useSelector(selectAppContainerState);
 
   const handleAddReview = async () => {
-    if (name !== '' && review !== '' && rating !== '') {
+    try {
+      // Check if any required field is empty
+      if (name === '' || review === '' || rating === '') {
+        console.error('All fields are required');
+        toast.error('Please fill in all the fields.');
+        return;
+      }
+
       const body: ReviewModel = {
         productId: props.productId,
         userName: name,
         review: review,
         stars: rating,
       };
-      const addReview = await addNewReview(body);
-      console.log('review added', addReview);
+      disptach(appContainerActions.addnewreview(body));
+      // Display success message
+      toast.success('Review added successfully!');
+    } catch (error: any) {
+      console.error(
+        'An error occurred during review addition:',
+        error.message
+      );
+      // Display error message
+      toast.error('An error occurred. Please try again later.');
     }
   };
 
@@ -94,6 +117,7 @@ const AddReview = (props: AddReviewProps) => {
       >
         Add
       </button>
+      <ToastContainer />
     </div>
   );
 };

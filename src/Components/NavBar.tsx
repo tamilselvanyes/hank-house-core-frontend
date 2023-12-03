@@ -171,6 +171,9 @@ const NavBar = () => {
                         className={`${
                           active ? "bg-[#228706] text-white" : "text-gray-900"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          navigate("/profile");
+                        }}
                       >
                         <BiUser />
                         Profile

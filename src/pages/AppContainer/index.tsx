@@ -14,10 +14,11 @@ export default function AppContainer({ children }: IProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(appContainerActions.getProduct());
     const userId = cookies.user_id;
     if (userId) {
-      dispatch(appContainerActions.getProduct());
       dispatch(appContainerActions.getWishList(userId));
+      dispatch(appContainerActions.getCartItem(userId));
     }
   }, []);
 

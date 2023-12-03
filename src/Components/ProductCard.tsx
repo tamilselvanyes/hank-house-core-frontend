@@ -17,9 +17,10 @@ const ProductCard = (props: ProductCardProps) => {
   const disptach = useDispatch();
   const { appContainerActions } = useAppContainerSlice();
   const appContainerStates = useSelector(selectAppContainerState);
-  const { wishList } = appContainerStates;
+  const { wishList, cart } = appContainerStates;
   const [isWishlistItem, setIsWishlistItem] =
     useState<boolean>(false);
+  const [isCartItem, setCartItem] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +29,13 @@ const ProductCard = (props: ProductCardProps) => {
         .map((wishlist: any) => wishlist.productId)
         .includes(props.product.id)
     );
-  }, [wishList]);
+    setCartItem(
+      cart
+        .map((cartItem: any) => cartItem.productId)
+        .includes(props.product.id)
+    );
+  }, [wishList, cart]);
+
   const handleWishlist = async () => {
     const userId = cookies.user_id;
     if (!userId) {
@@ -60,7 +67,23 @@ const ProductCard = (props: ProductCardProps) => {
     if (!userId) {
       navigate('/login');
     } else {
-      // const
+      if (!isCartItem) {
+        const newCart = {
+          userId: userId,
+          productId: props.product.id,
+        };
+        disptach(appContainerActions.createCartItem(newCart));
+      } else {
+        const isProductInCart = cart.filter(
+          (cart: any) => cart.productId === props.product.id
+        )[0];
+        disptach(
+          appContainerActions.removeCartItem({
+            userId: userId,
+            cartId: isProductInCart.id,
+          })
+        );
+      }
     }
   };
 
@@ -94,8 +117,13 @@ const ProductCard = (props: ProductCardProps) => {
               )}
             </button>
           </div>
-          <button className="bg-[#228706] p-2 rounded-md text-white">
-            Add to Cart
+          <button
+            className="bg-[#228706] p-2 rounded-md text-white"
+            onClick={() => {
+              handleCart();
+            }}
+          >
+            {isCartItem ? 'Remove from Cart' : 'Add To Cart'}
           </button>
         </div>
       </div>

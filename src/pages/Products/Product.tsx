@@ -1,61 +1,156 @@
-import React, { useEffect, useState } from "react";
-import { getAllReviewsbyId, getProductbyId } from "../../utils/helpers";
-import { useNavigate, useParams } from "react-router-dom";
-import { Product, ReviewModel, Variant } from "./Model";
-import { BsHeart } from "react-icons/bs";
-import { BiCart } from "react-icons/bi";
+import React, { useEffect, useState } from 'react';
+import {
+  getAllReviewsbyId,
+  getProductbyId,
+} from '../../utils/helpers';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Product, ReviewModel, Variant } from './Model';
+import { BsHeart } from 'react-icons/bs';
+import { BiCart } from 'react-icons/bi';
 
-import Test from "./Test";
-import { Carousel } from "@material-tailwind/react";
-import Review from "../../components/Review";
-import AddReview from "../../components/AddReview";
+import Test from './Test';
+import { Carousel } from '@material-tailwind/react';
+import Review from '../../components/Review';
+import AddReview from '../../components/AddReview';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAppContainerSlice } from '../AppContainer/slice';
+import { selectAppContainerState } from '../AppContainer/slice/selector';
+import { RiHeart3Fill } from 'react-icons/ri';
+import { BsCartCheckFill } from 'react-icons/bs';
+import { useCookies } from 'react-cookie';
 
 const ProductPage = () => {
-  const [productItem, setProductItem] = useState<Product>();
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  const [productItem, setProductItem] = useState<any>();
   const [price, setPrice] = useState<Variant>();
   const [quantity, setQuantity] = useState<number>(0);
-  const [reviews, setReviews] = useState<ReviewModel[]>();
+  // const [reviews, setReviews] = useState<ReviewModel[]>();
   const params = useParams();
   const [prodId, setProdId] = useState<string>();
+
+  const disptach = useDispatch();
+  const { appContainerActions } = useAppContainerSlice();
+  const appContainerStates = useSelector(selectAppContainerState);
+  const { wishList, cart, productList, reviews } = appContainerStates;
+  const [isWishlistItem, setIsWishlistItem] =
+    useState<boolean>(false);
+  const [isCartItem, setCartItem] = useState(false);
+
   const navigate = useNavigate();
+
   useEffect(() => {
-    const getProduct = async () => {
-      if (params.id !== undefined) {
-        setProdId(params.id);
-        const productFromDB: Product = await getProductbyId(params.id);
+    setProductItem(
+      productList.filter((product) => product.id === params.id)[0]
+    );
 
-        setProductItem(productFromDB);
+    disptach(appContainerActions.getReviews(params.id));
+
+    setCartItem(
+      cart
+        .map((cartItem: any) => cartItem.productId)
+        .includes(productItem?.id)
+    );
+
+    // const getReviews = async () => {
+    //   if (params.id !== undefined) {
+    //     const reviews = await getAllReviewsbyId(params.id);
+    //     setReviews(reviews.data);
+    //   }
+    // };
+    // getReviews();
+  });
+
+  useEffect(() => {
+    setIsWishlistItem(
+      wishList
+        .map((wishlist: any) => wishlist.productId)
+        .includes(params.id)
+    );
+    setCartItem(
+      cart
+        .map((cartItem: any) => cartItem.productId)
+        .includes(params.id)
+    );
+  }, [wishList, cart]);
+
+  const handleCart = async () => {
+    const userId = cookies.user_id;
+    if (!userId) {
+      navigate('/login');
+    } else {
+      if (!isCartItem) {
+        const newCart = {
+          userId: userId,
+          productId: productItem?.id,
+        };
+        disptach(appContainerActions.createCartItem(newCart));
+      } else {
+        const isProductInCart = cart.filter(
+          (cart: any) => cart.productId === productItem.id
+        )[0];
+        disptach(
+          appContainerActions.removeCartItem({
+            userId: userId,
+            cartId: isProductInCart.id,
+          })
+        );
       }
-    };
+    }
+  };
 
-    const getReviews = async () => {
-      if (params.id !== undefined) {
-        const reviews = await getAllReviewsbyId(params.id);
-        console.log("check the reviews from DB", reviews, params.id);
-        setReviews(reviews.data);
+  const handleWishlist = async () => {
+    const userId = cookies.user_id;
+    if (!userId) {
+      navigate('/login');
+    } else {
+      const isProductInWishlist = wishList.filter(
+        (wish: any) => wish.productId === productItem?.id
+      )[0];
+      const newWishlist = {
+        userId: userId,
+        productId: productItem?.id,
+      };
+
+      if (!isProductInWishlist) {
+        disptach(appContainerActions.createWishlist(newWishlist));
+      } else {
+        disptach(
+          appContainerActions.removeWishList({
+            userId: userId,
+            wishlistId: isProductInWishlist.id,
+          })
+        );
       }
-    };
-
-    getProduct();
-    getReviews();
-  }, []);
-
+    }
+  };
   return (
     <div className="p-7">
-      <div className="flex gap-5">
+      <div className="flex gap-3">
         <div className="w-[50%]">
           {productItem && (
             <img
-              src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+              src={require(`../../assets/images/category-kid.jpeg`)}
               alt="1"
-              className="object-cover"
+              className="object-cover w-[75%] h-[fit]"
             />
           )}
         </div>
         <div className="w-[50%]">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between">
             <p className="text-2xl">{productItem?.title}</p>
-            <BsHeart className="cursor-pointer" />
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                handleWishlist();
+              }}
+            >
+              {isWishlistItem ? (
+                <RiHeart3Fill className="text-red-700" />
+              ) : (
+                <BsHeart />
+              )}
+            </div>
           </div>
           <p className="text-sm font-light">
             <span className="font-semibold">Vendor: </span>
@@ -63,11 +158,13 @@ const ProductPage = () => {
           </p>
           <div className="mt-3">
             <p className="font-semibold">Description:</p>
-            <p className="text-md font-light">{productItem?.description}</p>
+            <p className="text-md font-light">
+              {productItem?.description}
+            </p>
           </div>
           <p className="font-semibold mt-2">
             Colors Available: &nbsp;
-            {productItem?.variants.map((v) => (
+            {productItem?.variants.map((v: any) => (
               <span className="text-md font-light">
                 {v.color} &nbsp; &nbsp;
               </span>
@@ -75,7 +172,7 @@ const ProductPage = () => {
           </p>
           <p className="font-semibold mt-2">
             Sizes Available: &nbsp;
-            {productItem?.variants.map((v) => (
+            {productItem?.variants.map((v: any) => (
               <span
                 className="text-md font-light cursor-pointer"
                 onClick={() => {
@@ -87,7 +184,9 @@ const ProductPage = () => {
             ))}
           </p>
           {price && (
-            <p className="text-md font-light">Selected Size: {price?.size}</p>
+            <p className="text-md font-light">
+              Selected Size: {price?.size}
+            </p>
           )}
           <div className="flex justify-around items-center mt-4">
             <p className="font-semibold  text-2xl">
@@ -95,9 +194,14 @@ const ProductPage = () => {
                 ${price?.price || productItem?.variants[0].price}
               </span>
             </p>
-            <button className="flex items-center gap-2 hover:text-lg font-bold py-2 px-4 rounded">
-              Add to Cart
-              <BiCart />
+            <button
+              className="flex items-center gap-2 hover:text-lg font-bold py-2 px-4 rounded"
+              onClick={() => {
+                handleCart();
+              }}
+            >
+              {isCartItem ? 'Remove from Cart' : 'Add To Cart'}
+              {isCartItem ? <BsCartCheckFill /> : <BiCart />}
             </button>
           </div>
           <div className="flex justify-around items-center mt-4">
@@ -123,12 +227,14 @@ const ProductPage = () => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={() => {
-                navigate("/buy-now", {
+                navigate('/buy-now', {
                   state: {
                     product: productItem,
                     quantity: quantity === 0 ? 1 : quantity,
-                    price: price?.price || productItem?.variants[0].price,
-                    size: price?.size || productItem?.variants[0].size,
+                    price:
+                      price?.price || productItem?.variants[0].price,
+                    size:
+                      price?.size || productItem?.variants[0].size,
                   },
                 });
               }}
@@ -144,13 +250,17 @@ const ProductPage = () => {
           {reviews !== undefined &&
             reviews.map((r) => {
               return (
-                <Review name={r.userName} comment={r.review} rating={r.stars} />
+                <Review
+                  name={r.userName}
+                  comment={r.review}
+                  rating={r.stars}
+                />
               );
             })}
         </div>
         <div className="mt-4">
           <h1>Add a Review</h1>
-          <AddReview productId={prodId} />
+          <AddReview productId={productItem?.id} />
         </div>
       </section>
     </div>
