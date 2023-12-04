@@ -11,6 +11,8 @@ const Cart = () => {
   const location = useLocation();
   const [subTotal, setSubTotal] = useState<number>();
   const [total, setTotal] = useState<number>();
+  const [delivery, setDelivery] = useState('');
+  const [qty, setQty] = useState(0);
 
   const { appContainerActions } = useAppContainerSlice();
   const appContainerStates = useSelector(selectAppContainerState);
@@ -25,6 +27,7 @@ const Cart = () => {
 
   function calcultePrice() {
     let totalPrice: number = 0;
+    let qty = 0;
     cart.forEach((cartItem) => {
       // Find the corresponding product based on productId
       const product = productList.find(
@@ -32,9 +35,11 @@ const Cart = () => {
       );
       if (product) {
         totalPrice += cartItem.quantity * product.variants[0].price;
+        qty += cartItem.quantity;
       }
     });
     setSubTotal(totalPrice);
+    setQty(qty);
   }
 
   const handleShipping = (e: any) => {
@@ -42,10 +47,13 @@ const Cart = () => {
     console.log(shipping);
     if (shipping === 'standard') {
       subTotal && setTotal(5 + subTotal);
+      setDelivery('standard');
     } else if (shipping === 'express') {
       subTotal && setTotal(10 + subTotal);
+      setDelivery('express');
     } else {
       subTotal && setTotal(20 + subTotal);
+      setDelivery('overnight');
     }
   };
   return (
@@ -65,12 +73,6 @@ const Cart = () => {
             </div> */}
           </div>
           <div className="items-container p-6 ">
-            {/* <Items
-              product={location.state.product}
-              price={location.state.price}
-              quantity={location.state.quantity}
-              size={location.state.size}
-            /> */}
             {cart.map((item: any) => (
               <Items
                 cartId={item.id}
@@ -79,6 +81,11 @@ const Cart = () => {
                 key={item.id}
               />
             ))}
+            {cart.length === 0 && (
+              <h2 className="text-center">
+                Please add items to Cart
+              </h2>
+            )}
           </div>
           <button
             className="cnt-btn"
@@ -127,7 +134,15 @@ const Cart = () => {
           </div>
           <button
             className="checkout-btn"
-            onClick={() => navigate('/checkout')}
+            onClick={() =>
+              navigate('/checkout', {
+                state: {
+                  price: total,
+                  delivery: delivery,
+                  quantity: qty,
+                },
+              })
+            }
           >
             checkout
           </button>

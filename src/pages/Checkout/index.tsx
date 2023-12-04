@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import OrderSummary from '../../components/OrderSummary';
 import {
   PayPalScriptProvider,
   PayPalButtons,
 } from '@paypal/react-paypal-js';
+import { useCookies } from 'react-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAppContainerSlice } from '../AppContainer/slice';
+import { selectAppContainerState } from '../AppContainer/slice/selector';
 
 interface FormValues {
   firstName: string;
-  lastName: string;
   email: string;
   address: string;
   deliveryDate: string;
 }
 
-interface CartItem {
-  id: number;
-  name: string;
-  quantity: number;
-  price: number;
-}
+// interface CartItem {
+//   id: number;
+//   name: string;
+//   quantity: number;
+//   price: number;
+// }
 
 // Define a type for the 'link' object
 interface PayPalLink {
@@ -30,29 +33,52 @@ interface PayPalLink {
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  const [totalAmount, setTotalAmount] = useState(
+    location.state.price.toFixed(2)
+  );
+  const [cartItems] = useState({
+    quantity: location.state.quantity,
+    price: totalAmount,
+  });
+
+  const disptach = useDispatch();
+  const { appContainerActions } = useAppContainerSlice();
+
+  const appContainerStates = useSelector(selectAppContainerState);
+
+  const { cart, address } = appContainerStates;
 
   const calculateDeliveryDate = () => {
     const today = new Date();
-    const deliveryDate = new Date(today.setDate(today.getDate() + 4));
+    var deliveryDate;
+    if (location.state.delivery == 'standard') {
+      deliveryDate = new Date(today.setDate(today.getDate() + 5));
+    } else if (location.state.delivery == 'express') {
+      deliveryDate = new Date(today.setDate(today.getDate() + 3));
+    } else {
+      deliveryDate = new Date(today.setDate(today.getDate() + 1));
+    }
     return deliveryDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   };
 
-  const [cartItems] = useState<CartItem[]>([
-    { id: 1, name: 'Product 1', quantity: 2, price: 100 },
-    { id: 2, name: 'Product 2', quantity: 1, price: 200 },
-    // Add more items as needed
-  ]);
-
-  const totalAmount = cartItems.reduce(
-    (total, item) => total + item.quantity * item.price,
-    0
-  );
+  useEffect(() => {
+    disptach(appContainerActions.getAddress(cookies.user_id));
+    console.log('location state', location.state);
+    console.log('---->', address);
+  }, []);
 
   const [formData, setFormData] = useState<FormValues>(() => ({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    address: '123 Main St, Cityville, USA',
+    firstName: cookies.username,
+    email: cookies.email,
+    address: `${address[0]?.street},
+      ${address[0]?.city},
+      ${address[0]?.state},
+      ${address[0]?.country},
+      ${address[0]?.postalCode}
+    `,
     deliveryDate: calculateDeliveryDate(),
   }));
 
@@ -177,7 +203,7 @@ const Checkout = () => {
             <div className="divider"></div>
             <form>
               <div className="form-group">
-                <label htmlFor="firstName">First Name:</label>
+                <label htmlFor="firstName">Name:</label>
                 <input
                   type="text"
                   id="firstName"
@@ -188,7 +214,7 @@ const Checkout = () => {
                   }
                 />
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="lastName">Last Name:</label>
                 <input
                   type="text"
@@ -199,7 +225,7 @@ const Checkout = () => {
                     handleInputChange('lastName', e.target.value)
                   }
                 />
-              </div>
+              </div> */}
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
                 <input
@@ -212,16 +238,18 @@ const Checkout = () => {
                   }
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group my-3">
                 <label htmlFor="address">Address:</label>
-                <input
+                <textarea
                   id="address"
                   name="address"
                   value={formData.address}
+                  cols={15}
+                  rows={6}
                   onChange={(e) =>
                     handleInputChange('address', e.target.value)
                   }
-                ></input>
+                ></textarea>
               </div>
               <div className="form-group">
                 <h3>

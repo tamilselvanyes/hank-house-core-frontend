@@ -86,7 +86,6 @@ const ProductCard = (props: ProductCardProps) => {
       }
     }
   };
-
   return (
     <div className="w-80 h-[580px] mt-10  p-3 rounded-lg bg-[#f4f6f4] flex flex-col items-center gap-2 cursor-pointer">
       <img
@@ -103,7 +102,7 @@ const ProductCard = (props: ProductCardProps) => {
           {props.product.description}
         </p>
         <p>$ {props.product.variants[0].price} </p>
-        <div className="flex align-middle justify-between">
+        <div className="flex align-middle justify-between items-center">
           <div
             onClick={() => {
               handleWishlist();

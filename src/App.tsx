@@ -25,6 +25,8 @@ import ConfirmationPage from './pages/ConfirmationPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProfilePage from './pages/Profile';
+import AdminNav from './components/AdminNav';
+import Orders from './pages/Orders';
 
 function App() {
   const MainRoute: React.FunctionComponent = () => {
@@ -129,6 +131,24 @@ function App() {
           element={
             <AppContainer>
               <ProductPage />
+            </AppContainer>
+          }
+        />
+        <Route
+          path="/adminNav"
+          element={
+            <AppContainer>
+              <AdminNav />
+            </AppContainer>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <AppContainer>
+              <ProtectedRoute>
+                <Orders />
+              </ProtectedRoute>
             </AppContainer>
           }
         />

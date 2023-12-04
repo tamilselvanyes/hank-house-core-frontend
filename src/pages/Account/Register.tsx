@@ -60,12 +60,12 @@ const Register = () => {
         <h1 className="text-3xl text-center">Register</h1>
         <h6>Please enter your username and password</h6>
         <InputTextComponent
-          value={email}
+          value={userName}
           label="Username"
           setValue={setEmail}
         />
         <InputTextComponent
-          value={userName}
+          value={email}
           label="Email"
           placeHolder="you@example.com"
           setValue={setUserName}

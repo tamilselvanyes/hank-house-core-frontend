@@ -30,6 +30,8 @@ export const initialState: AppContainerStates = {
   address: [],
   signInLoading: false,
   userData: {},
+  orderLoading: false,
+  orders: [],
 };
 const slice = createSlice({
   name: 'appContainer',
@@ -92,8 +94,8 @@ const slice = createSlice({
     updateCartItemQuantity(
       state: AppContainerStates,
       action: PayloadAction<any>
-    ){
-      state.cartLoading=true;
+    ) {
+      state.cartLoading = true;
     },
     createCartItem(
       state: AppContainerStates,
@@ -131,6 +133,12 @@ const slice = createSlice({
     ) {
       state.address = action.payload;
     },
+    deleteAddress(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ) {
+      state.addressLoading = true;
+    },
     getAddress(
       state: AppContainerStates,
       action: PayloadAction<any>
@@ -157,6 +165,18 @@ const slice = createSlice({
       action: PayloadAction<any>
     ) {
       state.userData = action.payload;
+    },
+    getOrders(state: AppContainerStates, action: PayloadAction<any>) {
+      state.orderLoading = true;
+    },
+    setOrders(state: AppContainerStates, action: PayloadAction<any>) {
+      state.orders = action.payload;
+    },
+    createOrders(
+      state: AppContainerStates,
+      action: PayloadAction<any>
+    ) {
+      state.orderLoading = true;
     },
   },
 });

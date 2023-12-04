@@ -39,8 +39,10 @@ const Items = (props: ItemsProps) => {
     setProduct(product);
   });
 
+  console.log('product image path', product?.images[0]);
+
   return (
-    <div className="bg-slate-300 rounded-md w-[100%] h-[100px] mb-3">
+    <div className="bg-slate-300 rounded-md w-[100%] h-[fit] mb-3">
       <div className="p-3 py-3">
         <div className="w-[100%] flex flex-row justify-end">
           <IoIosClose
@@ -55,70 +57,88 @@ const Items = (props: ItemsProps) => {
             }}
           />
         </div>
-        <div className="flex justify-between">
-          <h4 className="italic">
-            Title:
-            <span className="text-md font-sans font-medium not-italic">
-              {product?.title}
-            </span>
-          </h4>
-          <div>
-            <h4 className="italic">
-              Quantity:&nbsp;
-              <span
-                className="font-normal text-lg cursor-pointer"
-                onClick={() => {
-                  //event to reduce quantity
-                  const userId = cookies.user_id;
-                  const body = {
-                    userId: userId,
-                    id: props.cartId,
-                    action: 'decrease',
-                  };
-                  dispatch(
-                    appContainerActions.updateCartItemQuantity(body)
-                  );
-                }}
-              >
-                -
-              </span>
+
+        <div>
+          {product !== undefined && (
+            <img
+              src={require(`../../assets/images/${product?.images[0]}`)}
+              alt="product img"
+              width={'80px'}
+              height={'40px'}
+            />
+          )}
+
+          <div className="flex justify-between">
+            <h4 className="italic font-light">
+              Title:
               <span className="text-md font-sans font-medium not-italic">
-                {' '}
-                {props.quantity}{' '}
+                {product?.title}
               </span>
-              <span
-                className="font-normal text-lg cursor-pointer"
-                onClick={() => {
-                  //call to increase quantity
-                  const userId = cookies.user_id;
-                  const body = {
-                    userId: userId,
-                    id: props.cartId,
-                    action: 'increase',
-                  };
-                  dispatch(
-                    appContainerActions.updateCartItemQuantity(body)
-                  );
-                }}
-              >
-                +
+            </h4>
+            <div>
+              <h4 className="italic font-light">
+                Qty:&nbsp;
+                {props.quantity > '1' && (
+                  <span
+                    className="font-normal text-lg cursor-pointer"
+                    onClick={() => {
+                      //event to reduce quantity
+                      const userId = cookies.user_id;
+                      const body = {
+                        userId: userId,
+                        id: props.cartId,
+                        action: 'decrease',
+                      };
+                      if (props.quantity > '1') {
+                        dispatch(
+                          appContainerActions.updateCartItemQuantity(
+                            body
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    -
+                  </span>
+                )}
+                <span className="text-md font-sans font-medium not-italic">
+                  {' '}
+                  {props.quantity}{' '}
+                </span>
+                <span
+                  className="font-normal text-lg cursor-pointer"
+                  onClick={() => {
+                    //call to increase quantity
+                    const userId = cookies.user_id;
+                    const body = {
+                      userId: userId,
+                      id: props.cartId,
+                      action: 'increase',
+                    };
+                    dispatch(
+                      appContainerActions.updateCartItemQuantity(body)
+                    );
+                  }}
+                >
+                  +
+                </span>
+              </h4>
+            </div>
+          </div>
+          <div className="flex justify-between ">
+            <h4 className="italic font-light">
+              Size:
+              <span className="text-md font-sans font-medium not-italic">
+                {product?.variants[0].size}
+              </span>
+            </h4>
+            <h4 className="italic font-light">
+              Price:
+              <span className="text-md font-sans font-medium not-italic">
+                ${product?.variants[0].price}
               </span>
             </h4>
           </div>
-        </div>
-        <div className="flex justify-between ">
-          <h4 className="italic">
-            Size:
-            <span className="text-md font-sans font-medium not-italic">
-              {product?.variants[0].size}
-            </span>
-          </h4>
-          <h4 className="italic">
-            Price:
-            <span className="text-md font-sans font-medium not-italic">
-              {product?.variants[0].price}
-            </span>
-          </h4>
         </div>
       </div>
     </div>

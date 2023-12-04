@@ -13,6 +13,7 @@ import {
   BiSolidChevronDown,
   BiShoppingBag,
 } from 'react-icons/bi';
+import { BsCartCheck } from 'react-icons/bs';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -278,6 +279,25 @@ const NavBar = () => {
                       >
                         <BiCart />
                         Cart
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-[#228706] text-white'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                        onClick={() => {
+                          token
+                            ? navigate('/orders')
+                            : navigate('/login');
+                        }}
+                      >
+                        <BsCartCheck />
+                        My Orders
                       </button>
                     )}
                   </Menu.Item>

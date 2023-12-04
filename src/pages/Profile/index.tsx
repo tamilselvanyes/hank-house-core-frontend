@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useAppContainerSlice } from '../AppContainer/slice';
 import { selectAppContainerState } from '../AppContainer/slice/selector';
 import { useCookies } from 'react-cookie';
+import { CiEdit } from 'react-icons/ci';
+import { MdDeleteOutline } from 'react-icons/md';
 
 interface Address {
   street: string;
@@ -26,6 +28,9 @@ const ProfilePage: React.FC = () => {
   const appContainerStates = useSelector(selectAppContainerState);
   const { address, userData } = appContainerStates;
 
+  const [edit, setEdit] = useState(false);
+  const [updateAddressId, setUpdateId] = useState('');
+
   // State to store address information
   const [addressData, setAddressData] = useState<Address>({
     street: '',
@@ -41,11 +46,24 @@ const ProfilePage: React.FC = () => {
     e.preventDefault();
     const userId = cookies.user_id;
     // You can handle the submission logic here (e.g., send data to a server)
+
     const addressBody = {
       ...addressData,
       userId: userId,
+      id: updateAddressId,
     };
-    disptach(appContainerActions.addNewAddress(addressBody));
+    edit === true
+      ? disptach(appContainerActions.updateAddress(addressBody))
+      : disptach(appContainerActions.addNewAddress(addressBody));
+
+    setAddressData({
+      street: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      country: '',
+      isDefault: true,
+    });
   };
 
   // Function to handle input changes
@@ -60,8 +78,7 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     const userId = cookies.user_id;
     disptach(appContainerActions.getAddress(userId));
-  }, []);
-  console.log('addressData----> in profile', addressData);
+  }, [address]);
   return (
     <div className="container mx-auto mt-10 p-4 bg-white shadow-md rounded-md">
       <div className="bg-[#245114] text-white text-center py-2 rounded-t-md">
@@ -77,19 +94,48 @@ const ProfilePage: React.FC = () => {
       </div>
       <div className="mb-4">
         <p>Addresses Added:</p>
-        <ol>
-          {address.map((add: any) => (
-            <li>
+
+        {address.map((add: any) => (
+          <div className="flex justify-between items-center px-5 py-2">
+            <div>
               "{add.street}, {add.city}, {add.state}, {add.country} -{' '}
               {add.postalCode}"
-            </li>
-          ))}
-        </ol>
+            </div>
+            <div className="flex gap-4">
+              <CiEdit
+                className="cursor-pointer"
+                onClick={() => {
+                  setEdit(true);
+                  setUpdateId(add.id);
+                  setAddressData({
+                    city: add.city,
+                    country: add.country,
+                    street: add.street,
+                    postalCode: add.postalCode,
+                    state: add.state,
+                    isDefault: add.isDefault,
+                  });
+                }}
+              />
+              <MdDeleteOutline
+                className="cursor-pointer"
+                onClick={() => {
+                  const userId = cookies.user_id;
+                  const body = {
+                    id: add.id,
+                    userid: userId,
+                  };
+                  disptach(appContainerActions.deleteAddress(body));
+                }}
+              />
+            </div>
+          </div>
+        ))}
         {/* <p>"Unit 315, hemlock st, wat, on, CA - N2l0k8"</p> */}
       </div>
       <div>
         <h3 className="text-xl font-semibold mb-2">
-          Add New Address
+          {edit ? 'Edit Address' : 'Add New Address'}
         </h3>
         <form
           onSubmit={handleAddressSubmit}

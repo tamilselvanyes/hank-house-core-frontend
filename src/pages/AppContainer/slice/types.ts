@@ -14,6 +14,8 @@ export interface AppContainerStates {
   address: any;
   signInLoading: boolean;
   userData: any;
+  orderLoading: boolean;
+  orders: any[];
 }
 
 export interface AddressType {
