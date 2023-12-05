@@ -227,16 +227,22 @@ const ProductPage = () => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={() => {
-                navigate('/buy-now', {
-                  state: {
-                    product: productItem,
-                    quantity: quantity === 0 ? 1 : quantity,
-                    price:
-                      price?.price || productItem?.variants[0].price,
-                    size:
-                      price?.size || productItem?.variants[0].size,
-                  },
-                });
+                const token = cookies.token;
+                if (token) {
+                  navigate('/buy-now', {
+                    state: {
+                      product: productItem,
+                      quantity: quantity === 0 ? 1 : quantity,
+                      price:
+                        price?.price ||
+                        productItem?.variants[0].price,
+                      size:
+                        price?.size || productItem?.variants[0].size,
+                    },
+                  });
+                } else {
+                  navigate('/login');
+                }
               }}
             >
               Buy Now

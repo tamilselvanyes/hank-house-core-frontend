@@ -70,6 +70,20 @@ const Checkout = () => {
     console.log('---->', address);
   }, []);
 
+  useEffect(() => {
+    setFormData({
+      firstName: cookies.username,
+      email: cookies.email,
+      address: `${address[0]?.street},
+      ${address[0]?.city},
+      ${address[0]?.state},
+      ${address[0]?.country},
+      ${address[0]?.postalCode}
+    `,
+      deliveryDate: calculateDeliveryDate(),
+    });
+  }, [address]);
+
   const [formData, setFormData] = useState<FormValues>(() => ({
     firstName: cookies.username,
     email: cookies.email,
@@ -202,7 +216,7 @@ const Checkout = () => {
             <h2>Shipping Information</h2>
             <div className="divider"></div>
             <form>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="firstName">Name:</label>
                 <input
                   type="text"
@@ -212,6 +226,25 @@ const Checkout = () => {
                   onChange={(e) =>
                     handleInputChange('firstName', e.target.value)
                   }
+                />
+              </div> */}
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.firstName}
+                  onChange={(e) =>
+                    handleInputChange('firstName', e.target.value)
+                  }
+                  className="mt-1 p-2 w-full border rounded-md"
+                  required
                 />
               </div>
               {/* <div className="form-group">
@@ -226,7 +259,7 @@ const Checkout = () => {
                   }
                 />
               </div> */}
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="email">Email:</label>
                 <input
                   type="email"
@@ -237,8 +270,46 @@ const Checkout = () => {
                     handleInputChange('email', e.target.value)
                   }
                 />
+              </div> */}
+              <div className="mb-4">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    handleInputChange('email', e.target.value)
+                  }
+                  className="mt-1 p-2 w-full border rounded-md"
+                  required
+                />
               </div>
-              <div className="form-group my-3">
+              <div className="mb-4">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Address
+                </label>
+                <textarea
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={(e) =>
+                    handleInputChange('address', e.target.value)
+                  }
+                  rows={3}
+                  className="mt-1 p-2 w-full border rounded-md"
+                  required
+                ></textarea>
+              </div>
+              {/* <div className="form-group my-3">
                 <label htmlFor="address">Address:</label>
                 <textarea
                   id="address"
@@ -250,7 +321,7 @@ const Checkout = () => {
                     handleInputChange('address', e.target.value)
                   }
                 ></textarea>
-              </div>
+              </div> */}
               <div className="form-group">
                 <h3>
                   Estimated Delivery Date: {formData.deliveryDate}
