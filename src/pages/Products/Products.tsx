@@ -52,7 +52,6 @@ const Products = () => {
   useEffect(() => {
     setSortedProducts(productList);
   }, [productList]);
-  console.log('sorted products', sortedProducts);
   return (
     <div className="w-full p-6">
       <div className="grid grid-cols-12 gap-6">

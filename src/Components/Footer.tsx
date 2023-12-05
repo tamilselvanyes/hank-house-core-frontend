@@ -1,30 +1,46 @@
 import React from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const navigate = useNavigate();
+  const [cookies] = useCookies();
   return (
     <footer className="bg-gray-800 text-white p-4">
       <div className="flex justify-between">
         <div className="footer-section">
           <h4 className="text-lg font-bold mb-2">Account</h4>
           <ul className="list-none p-0">
-            <li
-              className="cursor-pointer"
-              onClick={() => {
-                navigate('/login');
-              }}
-            >
-              Log in
-            </li>
-            <li
-              className="cursor-pointer"
-              onClick={() => {
-                navigate('/register');
-              }}
-            >
-              Sign up
-            </li>
+            {!cookies.token && (
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate('/login');
+                }}
+              >
+                Log in
+              </li>
+            )}
+            {!cookies.token && (
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate('/register');
+                }}
+              >
+                Sign up
+              </li>
+            )}
+            {cookies.token && (
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate('/profile');
+                }}
+              >
+                Profile
+              </li>
+            )}
             <li>Redeem a Gift Card</li>
           </ul>
         </div>

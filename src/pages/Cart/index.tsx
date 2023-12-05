@@ -5,6 +5,9 @@ import Items from './Items';
 import { selectAppContainerState } from '../AppContainer/slice/selector';
 import { useSelector } from 'react-redux';
 import { useAppContainerSlice } from '../AppContainer/slice';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { promoCodes } from '../../utils/constant';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -12,7 +15,10 @@ const Cart = () => {
   const [subTotal, setSubTotal] = useState<number>();
   const [total, setTotal] = useState<number>();
   const [delivery, setDelivery] = useState('');
+  const [promoCode, setPromoCode] = useState('');
+  const [promoApplied, setPromoApplied] = useState(false);
   const [qty, setQty] = useState(0);
+  const [percent, setPercent] = useState('');
 
   const { appContainerActions } = useAppContainerSlice();
   const appContainerStates = useSelector(selectAppContainerState);
@@ -39,6 +45,7 @@ const Cart = () => {
       }
     });
     setSubTotal(totalPrice);
+    // subTotal && setTotal(subTotal + 5);
     setQty(qty);
   }
 
@@ -124,13 +131,65 @@ const Cart = () => {
           </div>
           <div className="promo-container">
             <h3>promo code</h3>
-            <input type="text" placeholder="Enter Promo Code" />
-            <button className="apply-btn">apply</button>
+            <input
+              type="text"
+              placeholder="Enter Promo Code"
+              value={promoCode}
+              onChange={(e) => {
+                setPercent('');
+                setPromoApplied(false);
+                setPromoCode(e.currentTarget.value);
+              }}
+            />
+            <button
+              className="apply-btn"
+              onClick={() => {
+                if (promoCode !== '') {
+                  const code = promoCodes.filter(
+                    (p) => p.code === promoCode.toLowerCase()
+                  );
+                  console.log('check for unfilt', code);
+                  if (
+                    code.length !== 0 &&
+                    code[0].code === promoCode.toLowerCase()
+                  ) {
+                    setPromoApplied(true);
+                    total !== undefined &&
+                      setTotal(total * code[0].discount);
+                    setPercent(code[0].percent);
+                    toast.success('Promo code applied successful!');
+                  } else {
+                    toast.error(`Enter valid promo code`);
+                  }
+                } else {
+                  toast.error(`Please enter promo code`);
+                }
+              }}
+            >
+              apply
+            </button>
             <div className="divider"></div>
           </div>
+          {promoApplied && (
+            <div className="headings">
+              <h3>Promo Code Applied</h3>
+              <p className="font-light">
+                {promoCode}({percent})
+              </p>
+            </div>
+          )}
           <div className="headings">
             <h3>Total cost</h3>
-            <h3>${total?.toFixed(2)}</h3>
+            <div className="flex gap-1">
+              {promoApplied && <p>${total?.toFixed(2)}</p>}
+              <p
+                className={
+                  promoApplied ? 'line-through' : 'no-underline'
+                }
+              >
+                ${total?.toFixed(2)}
+              </p>
+            </div>
           </div>
           <button
             className="checkout-btn"

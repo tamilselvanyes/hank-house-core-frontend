@@ -27,6 +27,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProfilePage from './pages/Profile';
 import AdminNav from './components/AdminNav';
 import Orders from './pages/Orders';
+import SearchedProducts from './pages/Products/SearchedProducts';
 
 function App() {
   const MainRoute: React.FunctionComponent = () => {
@@ -139,6 +140,14 @@ function App() {
           element={
             <AppContainer>
               <AdminNav />
+            </AppContainer>
+          }
+        />
+        <Route
+          path="/searched-products"
+          element={
+            <AppContainer>
+              <SearchedProducts />
             </AppContainer>
           }
         />

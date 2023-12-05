@@ -92,47 +92,49 @@ const ProfilePage: React.FC = () => {
         </p>
         <p className="text-lg font-medium">Email: {cookies.email}</p>
       </div>
-      <div className="mb-4">
-        <p>Addresses Added:</p>
+      {address.length !== 0 && (
+        <div className="mb-4">
+          <p>Addresses Added:</p>
 
-        {address.map((add: any) => (
-          <div className="flex justify-between items-center px-5 py-2">
-            <div>
-              "{add.street}, {add.city}, {add.state}, {add.country} -{' '}
-              {add.postalCode}"
+          {address.map((add: any) => (
+            <div className="flex justify-between items-center px-5 py-2">
+              <div>
+                "{add.street}, {add.city}, {add.state}, {add.country}{' '}
+                - {add.postalCode}"
+              </div>
+              <div className="flex gap-4">
+                <CiEdit
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setEdit(true);
+                    setUpdateId(add.id);
+                    setAddressData({
+                      city: add.city,
+                      country: add.country,
+                      street: add.street,
+                      postalCode: add.postalCode,
+                      state: add.state,
+                      isDefault: add.isDefault,
+                    });
+                  }}
+                />
+                <MdDeleteOutline
+                  className="cursor-pointer"
+                  onClick={() => {
+                    const userId = cookies.user_id;
+                    const body = {
+                      id: add.id,
+                      userid: userId,
+                    };
+                    disptach(appContainerActions.deleteAddress(body));
+                  }}
+                />
+              </div>
             </div>
-            <div className="flex gap-4">
-              <CiEdit
-                className="cursor-pointer"
-                onClick={() => {
-                  setEdit(true);
-                  setUpdateId(add.id);
-                  setAddressData({
-                    city: add.city,
-                    country: add.country,
-                    street: add.street,
-                    postalCode: add.postalCode,
-                    state: add.state,
-                    isDefault: add.isDefault,
-                  });
-                }}
-              />
-              <MdDeleteOutline
-                className="cursor-pointer"
-                onClick={() => {
-                  const userId = cookies.user_id;
-                  const body = {
-                    id: add.id,
-                    userid: userId,
-                  };
-                  disptach(appContainerActions.deleteAddress(body));
-                }}
-              />
-            </div>
-          </div>
-        ))}
-        {/* <p>"Unit 315, hemlock st, wat, on, CA - N2l0k8"</p> */}
-      </div>
+          ))}
+          {/* <p>"Unit 315, hemlock st, wat, on, CA - N2l0k8"</p> */}
+        </div>
+      )}
       <div>
         <h3 className="text-xl font-semibold mb-2">
           {edit ? 'Edit Address' : 'Add New Address'}
