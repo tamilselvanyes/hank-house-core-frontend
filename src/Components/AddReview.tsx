@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAppContainerSlice } from '../pages/AppContainer/slice';
 import { selectAppContainerState } from '../pages/AppContainer/slice/selector';
+import ReactStars from 'react-stars';
 
 interface AddReviewProps {
   productId: any;
@@ -18,6 +19,10 @@ const AddReview = (props: AddReviewProps) => {
   const disptach = useDispatch();
   const { appContainerActions } = useAppContainerSlice();
   const appContainerStates = useSelector(selectAppContainerState);
+
+  function ratingChanged(newRating: any) {
+    setRating(newRating);
+  }
 
   const handleAddReview = async () => {
     try {
@@ -37,6 +42,9 @@ const AddReview = (props: AddReviewProps) => {
       disptach(appContainerActions.addnewreview(body));
       // Display success message
       toast.success('Review added successfully!');
+      setName('');
+      setRating('');
+      setReview('');
     } catch (error: any) {
       console.error(
         'An error occurred during review addition:',
@@ -94,7 +102,7 @@ const AddReview = (props: AddReviewProps) => {
           >
             Select a Rating:
           </label>
-          <input
+          {/* <input
             type="number"
             id="number-input"
             aria-describedby="helper-text-explanation"
@@ -106,6 +114,13 @@ const AddReview = (props: AddReviewProps) => {
             onChange={(e) => {
               setRating(e.currentTarget.value);
             }}
+          /> */}
+          <ReactStars
+            count={5}
+            onChange={ratingChanged}
+            value={parseInt(rating)}
+            size={24}
+            color2="#ffd700"
           />
         </div>
       </div>
