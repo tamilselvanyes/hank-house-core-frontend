@@ -22,10 +22,11 @@ const Orders = () => {
     calcultePrice();
   }, []);
 
-  const today = new Date();
+  useEffect(() => {
+    calcultePrice();
+  }, [orders, productList]);
 
-  //   today.setDate(today.getDate() + 3);
-  //   var threeDaysLater = today.toISOString().split('T')[0];
+  const orderDate = new Date(orders[0]?.createdAt);
 
   function calcultePrice() {
     let totalPrice: number = 0;
@@ -40,7 +41,6 @@ const Orders = () => {
         qty += cartItem.quantity;
       }
     });
-    console.log('check the price in the orders page', totalPrice);
     setTotal(totalPrice);
   }
 
@@ -49,15 +49,16 @@ const Orders = () => {
       <div className="flex justify-between items-center mb-6 w-[75]">
         <div>
           <h1 className="text-2xl font-semibold">
-            Order ID: 334902461
+            Order ID: {orders[0]?.id.substring(0, 7)}
           </h1>
           <p className="text-gray-600">
-            Order date: {new Date().toDateString()}
+            Order date:{' '}
+            {new Date(orders[0]?.createdAt).toDateString()}
           </p>
           <p className="text-green-600">
             Estimated delivery:
             {new Date(
-              today.setDate(today.getDate() + 3)
+              orderDate.setDate(orderDate.getDate() + 3)
             ).toDateString()}
           </p>
         </div>
@@ -123,7 +124,7 @@ const Orders = () => {
         </div>
         <div>
           <h2 className="text-lg font-semibold mb-4">
-            Order Summary:
+            Order Summary
           </h2>
           {/* <div className="flex justify-between mb-2">
             <span>Subtotal</span>
@@ -143,8 +144,25 @@ const Orders = () => {
           </div> */}
           <div className="border-t pt-2">
             <div className="flex justify-between font-semibold">
+              <span className="font-light">SubTotal:</span>
+              <span>${total.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between font-semibold">
+              <span className="font-light">Delivery:</span>
+              <span>{orders[0]?.deliveryType}</span>
+            </div>
+            {orders[0]?.promoCode !== '' && (
+              <div className="flex justify-between font-semibold">
+                <span className="font-light">Promo:</span>
+                <span className="font-light">
+                  {orders[0]?.promoCode.toUpperCase()}
+                </span>
+              </div>
+            )}
+            <hr />
+            <div className="flex justify-between font-semibold mt-2">
               <span className="font-light">Total:</span>
-              <span>${total}</span>
+              <span>${orders[0]?.totalAmount}</span>
             </div>
           </div>
         </div>

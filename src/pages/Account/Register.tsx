@@ -62,13 +62,13 @@ const Register = () => {
         <InputTextComponent
           value={userName}
           label="Username"
-          setValue={setEmail}
+          setValue={setUserName}
         />
         <InputTextComponent
           value={email}
           label="Email"
           placeHolder="you@example.com"
-          setValue={setUserName}
+          setValue={setEmail}
         />
         {/* Add the role selection if needed */}
         {/* <div>

@@ -71,17 +71,26 @@ const Checkout = () => {
   }, []);
 
   useEffect(() => {
-    setFormData({
-      firstName: cookies.username,
-      email: cookies.email,
-      address: `${address[0]?.street},
-      ${address[0]?.city},
-      ${address[0]?.state},
-      ${address[0]?.country},
-      ${address[0]?.postalCode}
-    `,
-      deliveryDate: calculateDeliveryDate(),
-    });
+    if (address.length > 0) {
+      setFormData({
+        firstName: cookies.username,
+        email: cookies.email,
+        address: `${address[0]?.street},
+        ${address[0]?.city},
+        ${address[0]?.state},
+        ${address[0]?.country},
+        ${address[0]?.postalCode}
+      `,
+        deliveryDate: calculateDeliveryDate(),
+      });
+    } else {
+      setFormData({
+        firstName: cookies.username,
+        email: cookies.email,
+        address: '',
+        deliveryDate: calculateDeliveryDate(),
+      });
+    }
   }, [address]);
 
   const [formData, setFormData] = useState<FormValues>(() => ({
@@ -198,9 +207,18 @@ const Checkout = () => {
   const onApprove = async (data: any, actions: any) => {
     // Capture the funds from the transaction
     await actions.order.capture();
-
+    // setCookie('delivery', location.state.delivery);
+    // setCookie('totalAmount', location.state.price);
+    // setCookie('promo', location.state.promoCode);
     // Redirect to a confirmation page or handle success as needed
-    navigate('/confirmation');
+    navigate('/confirmation', {
+      state: {
+        price: location.state.price,
+        delivery: location.state.delivery,
+        quantity: location.state.quantity,
+        promoCode: location.state.promoCode,
+      },
+    });
   };
 
   const onError = (err: any) => {

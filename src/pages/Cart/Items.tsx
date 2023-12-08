@@ -61,7 +61,7 @@ const Items = (props: ItemsProps) => {
         <div>
           {product !== undefined && (
             <img
-              src={require(`../../assets/images/${product?.images[0]}`)}
+              src={require(`../../assets/images/products/${product?.images[0]}`)}
               alt="product img"
               width={'80px'}
               height={'40px'}

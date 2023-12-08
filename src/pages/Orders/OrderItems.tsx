@@ -27,11 +27,13 @@ const OrderItems = (props: OrderItemsProps) => {
     <div>
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <img
-            src={require('../../assets/images/category-men.png')}
-            alt="Product"
-            className="h-16 w-16 object-cover mr-4"
-          />
+          {product !== undefined && (
+            <img
+              src={require(`../../assets/images/products/${product?.images[0]}`)}
+              alt="Product"
+              className="h-16 w-16 object-cover mr-4"
+            />
+          )}
           <div>
             <h2 className="text-xl font-medium">{product?.title}</h2>
             <p className="text-gray-600">

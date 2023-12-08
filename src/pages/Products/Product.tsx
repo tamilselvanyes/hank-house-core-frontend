@@ -130,7 +130,7 @@ const ProductPage = () => {
         <div className="w-[50%]">
           {productItem && (
             <img
-              src={require(`../../assets/images/${productItem.images[0]}`)}
+              src={require(`../../assets/images/products/${productItem.images[0]}`)}
               alt="1"
               className="object-cover w-[75%] h-[fit]"
             />

@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { BiShoppingBag } from 'react-icons/bi';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppContainerSlice } from '../AppContainer/slice';
 import { selectAppContainerState } from '../AppContainer/slice/selector';
 import { useCookies } from 'react-cookie';
 
 const ConfirmationPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const dispatch = useDispatch();
@@ -22,11 +23,26 @@ const ConfirmationPage = () => {
 
   function createOrder() {
     if (cart.length !== 0) {
+      // const promo = cookies.promo !== undefined ? cookies.promo : '';
+      // const totalAmount =
+      //   cookies.totalAmount !== undefined ? cookies.totalAmount : '';
+      // const delivery =
+      //   cookies.delivery !== undefined ? cookies.delivery : '';
+      const promo = location.state.promoCode;
+      const delivery = location.state.delivery;
+      const totalAmount = location.state.price;
+
       const body = {
         userId: cookies.user_id,
         orders: cart,
+        promoCode: promo,
+        totalAmount: totalAmount,
+        deliveryType: delivery,
       };
       dispatch(appContainerActions.createOrders(body));
+      // removeCookie('promo');
+      // removeCookie('totalAmount');
+      // removeCookie('delivery');
     }
     navigate('/products');
   }

@@ -10,7 +10,7 @@ interface ItemsProps {
 
 const ItemsBuyNow = (props: ItemsProps) => {
   return (
-    <div className="bg-slate-300 rounded-md w-[100%] h-[90px] ">
+    <div className="bg-slate-300 rounded-md w-[100%] h-[fit] ">
       <div className="p-3 py-3">
         {/* <div className="w-[100%] flex flex-row justify-end">
           <IoIosClose
@@ -19,11 +19,17 @@ const ItemsBuyNow = (props: ItemsProps) => {
             }}
           />
         </div> */}
+        <img
+          src={require(`../../assets/images/products/${props.product.images[0]}`)}
+          alt="product img"
+          width={'80px'}
+          height={'40px'}
+        />
         <div className="flex justify-between">
           <h4 className="italic font-light">
             Title:
             <span className="text-md font-sans font-medium not-italic">
-              {'props.product.title'}
+              {props.product.title}
             </span>
           </h4>
           <div>
